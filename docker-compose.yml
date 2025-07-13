@@ -1,0 +1,104 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  database:
+    image: postgres:15-alpine
+    container_name: capstone-db
+    environment:
+      POSTGRES_DB: ${DB_NAME:-capstone_db}
+      POSTGRES_USER: ${DB_USER:-capstone_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-capstone_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    networks:
+      - capstone-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-capstone_user} -d ${DB_NAME:-capstone_db}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Spring Boot Backend
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: capstone-backend
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILE:-prod}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/${DB_NAME:-capstone_db}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER:-capstone_user}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-capstone_password}
+      JWT_SECRET: ${JWT_SECRET:-mySecretKey123456789}
+      JWT_EXPIRATION: ${JWT_EXPIRATION:-86400}
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - capstone-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    volumes:
+      - ./logs:/app/logs
+
+  # React Frontend with Nginx
+  frontend:
+    build:
+      context: ./src/main/capstone-ui
+      dockerfile: Dockerfile
+    container_name: capstone-frontend
+    environment:
+      REACT_APP_API_BASE_URL: ${FRONTEND_API_URL:-http://localhost:8080/api}
+    ports:
+      - "${FRONTEND_PORT:-80}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - capstone-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis Cache (Optional)
+  redis:
+    image: redis:7-alpine
+    container_name: capstone-redis
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redis_password}
+    volumes:
+      - redis_data:/data
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    networks:
+      - capstone-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  capstone-network:
+    driver: bridge
