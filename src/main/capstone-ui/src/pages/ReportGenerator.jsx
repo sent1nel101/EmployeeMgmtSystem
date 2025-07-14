@@ -41,7 +41,10 @@ import { DEPARTMENTS, PROJECT_STATUS } from '../utils/constants';
 import { useAuth } from '../hooks/useAuth.jsx';
 
 const ReportGenerator = () => {
-  const { hasRole } = useAuth();
+  const { hasRole, user } = useAuth();
+  console.log('Current user:', user);
+  console.log('Has ADMIN role:', hasRole('ADMIN'));
+  console.log('Has MANAGER role:', hasRole('MANAGER'));
   const [selectedReportType, setSelectedReportType] = useState('');
   const [filters, setFilters] = useState({
     startDate: null,
