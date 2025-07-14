@@ -55,12 +55,7 @@ const Sidebar = ({ open, onClose }) => {
       path: '/departments',
       roles: ['ADMIN', 'HR'],
     },
-    {
-      text: 'Reports',
-      icon: <Assessment />,
-      path: '/reports',
-      roles: ['ADMIN', 'MANAGER', 'HR'],
-    },
+
     {
       text: 'Search',
       icon: <Search />,
