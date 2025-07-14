@@ -1,0 +1,95 @@
+# Multi-stage build for full-stack application deployment on Render.com
+# This Dockerfile builds both frontend and backend in a single container
+
+# Stage 1: Build React Frontend
+FROM node:20-alpine AS frontend-build
+WORKDIR /app/frontend
+COPY src/main/capstone-ui/package*.json ./
+RUN npm install --legacy-peer-deps
+COPY src/main/capstone-ui/ .
+RUN npm run build
+
+# Stage 2: Build Spring Boot Backend
+FROM eclipse-temurin:21-jdk AS backend-build
+WORKDIR /app
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+RUN chmod +x ./mvnw
+RUN ./mvnw dependency:go-offline -B
+COPY src/main/ ./src/main/
+COPY src/test/ ./src/test/
+RUN ./mvnw clean package -DskipTests
+
+# Stage 3: Production Runtime
+FROM eclipse-temurin:21-jre
+
+# Install nginx and curl
+RUN apt-get update && \
+    apt-get install -y nginx curl gettext-base && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Copy backend JAR
+COPY --from=backend-build /app/target/*.jar app.jar
+
+# Copy frontend build
+COPY --from=frontend-build /app/frontend/dist /usr/share/nginx/html
+
+# Copy nginx configuration template
+COPY src/main/capstone-ui/nginx.conf /etc/nginx/nginx.conf.template
+
+# Create logs directory
+RUN mkdir -p /app/logs
+
+# Change ownership of app directory only
+RUN chown -R root:root /app && \
+    chown -R root:root /usr/share/nginx/html
+
+# Set default port
+ENV PORT=8080
+
+# Expose port
+EXPOSE $PORT
+
+# JVM tuning
+ENV JAVA_OPTS="-Xms512m -Xmx1024m -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/./urandom"
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=3 \
+    CMD curl -f http://localhost:${PORT}/health || exit 1
+
+# Create startup script
+RUN cat > /app/deploy.sh << 'EOF'
+#!/bin/bash
+
+# Set up ports - nginx gets the main port, backend gets +1
+export NGINX_PORT=${PORT:-8080}
+export BACKEND_PORT=$((NGINX_PORT + 1))
+
+echo "Starting services..."
+echo "Nginx will listen on port: $NGINX_PORT"
+echo "Backend will listen on port: $BACKEND_PORT"
+
+# Replace PORT and BACKEND_PORT in nginx config
+envsubst '$PORT $BACKEND_PORT' < /etc/nginx/nginx.conf.template > /tmp/nginx.conf
+
+# Start nginx in background
+echo "Starting nginx..."
+nginx -c /tmp/nginx.conf -g 'daemon off;' &
+NGINX_PID=$!
+
+# Give nginx a moment to start
+sleep 2
+
+# Start Spring Boot application
+echo "Starting Spring Boot application..."
+exec java $JAVA_OPTS -Dserver.port=$BACKEND_PORT -Dserver.address=0.0.0.0 -jar /app/app.jar
+EOF
+
+RUN chmod +x /app/start.sh
+
+# Run the application
+ENTRYPOINT ["/app/start.sh"]
