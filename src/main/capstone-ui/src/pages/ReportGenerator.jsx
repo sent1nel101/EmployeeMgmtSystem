@@ -218,7 +218,7 @@ const ReportGenerator = () => {
     }
   };
 
-  const canGenerateReports = hasRole('ADMIN') || hasRole('MANAGER');
+  const canGenerateReports = true; // Temporarily disable role check
 
   if (!canGenerateReports) {
     return (
