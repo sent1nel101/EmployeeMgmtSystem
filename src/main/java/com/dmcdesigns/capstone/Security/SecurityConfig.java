@@ -57,6 +57,9 @@ public class SecurityConfig {
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/actuator/**").permitAll()  // Allow health checks
+                .requestMatchers("/health").permitAll()       // Allow health endpoint
+                .requestMatchers("/").permitAll()             // Allow root endpoint
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/manager/**").hasAnyRole("ADMIN", "MANAGER")
                 .requestMatchers("/api/employee/**").hasAnyRole("ADMIN", "MANAGER", "EMPLOYEE")

@@ -12,8 +12,11 @@ export SPRING_DATASOURCE_PASSWORD=${DATABASE_PASSWORD:-capstone_password}
 export JWT_SECRET=${JWT_SECRET:-myVerySecretKeyForJWTTokenGeneration123456789}
 export JWT_EXPIRATION=${JWT_EXPIRATION:-86400}
 
-# JVM tuning for Render.com
-export JAVA_OPTS="-Xms256m -Xmx512m -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/./urandom"
+# JVM tuning for Render.com (reduced memory for free tier)
+export JAVA_OPTS="-Xms128m -Xmx256m -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/./urandom"
+
+echo "Starting application on port $PORT..."
+echo "Database URL: $SPRING_DATASOURCE_URL"
 
 # Start the application
 exec java $JAVA_OPTS -Dserver.port=$PORT -Dserver.address=0.0.0.0 -jar app.jar

@@ -85,8 +85,8 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
     List<Project> findProjectsWithoutAssignedEmployees();
 
     // Find projects with specific milestone
-    // @Query("SELECT p FROM Project p WHERE ?1 MEMBER OF p.milestones")
-    // List<Project> findProjectsWithMilestone(String milestone);
+    @Query("SELECT p FROM Project p WHERE ?1 MEMBER OF p.milestones")
+    List<Project> findProjectsWithMilestone(String milestone);
 
     // Get top projects by budget
     @Query("SELECT p FROM Project p ORDER BY p.budget DESC")

@@ -27,16 +27,6 @@ public class EmployeeController {
         return ResponseEntity.ok(employees);
     }
 
-    @GetMapping("/health")
-    public ResponseEntity<String> getEmployeeHealth() {
-        try {
-            List<Employee> employees = employeeService.getAllEmployees();
-            return ResponseEntity.ok("Employee service is healthy. Found " + employees.size() + " employees.");
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Employee service error: " + e.getMessage());
-        }
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable Integer id) {
         Optional<Employee> employee = employeeService.getEmployeeById(id);

@@ -1,8 +1,8 @@
 package com.dmcdesigns.capstone.Security;
 
 import io.jsonwebtoken.Claims;
-
 import io.jsonwebtoken.Jwts;
+
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,15 +42,11 @@ public class JwtUtil {
     }
 
     private Claims extractAllClaims(String token) {
-        try {
-            return Jwts.parser()
-                    .verifyWith(getSigningKey())
-                    .build()
-                    .parseSignedClaims(token)
-                    .getPayload();
-        } catch (Exception e) {
-            throw new RuntimeException("Invalid JWT token", e);
-        }
+        return Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
     private Boolean isTokenExpired(String token) {
@@ -78,20 +74,12 @@ public class JwtUtil {
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        try {
-            final String username = extractUsername(token);
-            return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-        } catch (Exception e) {
-            return false; // invalid token
-        }
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
     public Boolean validateToken(String token, String username) {
-        try {
-            final String extractedUsername = extractUsername(token);
-            return (extractedUsername.equals(username) && !isTokenExpired(token));
-        } catch (Exception e) {
-            return false; // invalid token
-        }
+        final String extractedUsername = extractUsername(token);
+        return (extractedUsername.equals(username) && !isTokenExpired(token));
     }
 }
