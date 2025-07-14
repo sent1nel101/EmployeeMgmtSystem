@@ -1,5 +1,5 @@
 # Multi-stage build for React application
-FROM node:20-alpine AS build
+FROM node:18-alpine AS build
 
 # Set working directory
 WORKDIR /app
@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies (including dev dependencies for build)
-RUN npm install --legacy-peer-deps
+RUN npm ci
 
 # Copy source code
 COPY . .
@@ -31,11 +31,11 @@ COPY --from=build /app/dist /usr/share/nginx/html
 # Create nginx user and set permissions
 RUN chown -R nginx:nginx /usr/share/nginx/html && \
     chown -R nginx:nginx /var/cache/nginx && \
-    chown -R nginx:nginx /etc/nginx/conf.d && \
-    mkdir -p /tmp && \
-    chown -R nginx:nginx /tmp
+    chown -R nginx:nginx /var/log/nginx && \
+    chown -R nginx:nginx /etc/nginx/conf.d
 
-# Don't switch to non-root user to avoid permission issues
+# Switch to non-root user  
+USER nginx
 
 # Expose port 80
 EXPOSE 80
