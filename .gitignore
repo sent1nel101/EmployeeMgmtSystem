@@ -34,3 +34,7 @@ build/
 
 ### Node Modules ###
 node_modules
+
+### Docker (backup files) ###
+Dockerfile.backup
+Dockerfile.*.backup
