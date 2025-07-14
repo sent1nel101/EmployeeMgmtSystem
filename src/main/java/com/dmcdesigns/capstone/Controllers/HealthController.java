@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 @RestController
 public class HealthController {
 
-    @GetMapping("/")
+    @GetMapping("/api")
     public ResponseEntity<String> root() {
         return ResponseEntity.ok("Employee Management System API is running");
     }
