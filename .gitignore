@@ -34,3 +34,5 @@ build/
 
 ### Node Modules ###
 node_modules
+src/main/capstone-ui/package-lock.json
+src/main/capstone-ui/dist/
