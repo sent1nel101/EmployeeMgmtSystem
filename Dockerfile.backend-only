@@ -23,10 +23,9 @@ RUN groupadd -r appuser && useradd -r -g appuser appuser
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 COPY render-deploy.sh .
-COPY verify-environment.sh .
 
-# Make scripts executable
-RUN chmod +x render-deploy.sh verify-environment.sh
+# Make script executable
+RUN chmod +x render-deploy.sh
 
 # Create logs directory
 RUN mkdir -p /app/logs
