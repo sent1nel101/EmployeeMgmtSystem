@@ -164,8 +164,7 @@ const PerformanceForm = ({
   ];
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
+    <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
         <form onSubmit={handleSubmit}>
           <DialogTitle>
             {isEdit ? 'Edit Performance Review' : 'Create Performance Review'}
@@ -353,8 +352,7 @@ const PerformanceForm = ({
             </Button>
           </DialogActions>
         </form>
-      </Dialog>
-    </LocalizationProvider>
+    </Dialog>
   );
 };
 
