@@ -5,4 +5,4 @@ cmds = ["bash build.sh"]
 cmds = ["mvn dependency:go-offline"]
 
 [start]
-cmd = "java -Xms256m -Xmx512m -Dserver.address=0.0.0.0 -Dspring.profiles.active=railway -Djava.awt.headless=true -jar target/*.jar"
+cmd = "java -Xms256m -Xmx512m -Dserver.address=0.0.0.0 -Dspring.profiles.active=railway -Djava.awt.headless=true -jar app.jar"

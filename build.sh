@@ -20,4 +20,8 @@ echo "Building backend..."
 cd ../../../..
 mvn clean package -DskipTests
 
+# Copy JAR file to root directory as app.jar
+echo "Copying JAR file..."
+cp target/*.jar app.jar
+
 echo "Build complete!"
