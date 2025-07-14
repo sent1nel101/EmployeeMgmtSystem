@@ -802,3 +802,93 @@
 2025-07-14 15:36:16 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.support.SessionFlashMapManager@2d148f03
 2025-07-14 15:36:16 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
 2025-07-14 15:36:16 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 6 ms
+2025-07-14 15:38:54 [main] INFO  c.d.capstone.CapstoneApplication - Starting CapstoneApplication v0.0.1-SNAPSHOT using Java 21.0.7 with PID 7 (/app/app.jar started by appuser in /app)
+2025-07-14 15:38:54 [main] DEBUG c.d.capstone.CapstoneApplication - Running with Spring Boot v3.5.3, Spring v6.2.8
+2025-07-14 15:38:54 [main] INFO  c.d.capstone.CapstoneApplication - The following 1 profile is active: "prod"
+2025-07-14 15:38:55 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-07-14 15:38:55 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 49 ms. Found 7 JPA repository interfaces.
+2025-07-14 15:38:56 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-14 15:38:56 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-14 15:38:56 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-07-14 15:38:56 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-14 15:38:56 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1318 ms
+2025-07-14 15:38:56 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-07-14 15:38:56 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-07-14 15:38:56 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3c9e19de
+2025-07-14 15:38:56 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-07-14 15:38:56 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-07-14 15:38:57 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-07-14 15:38:58 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-07-14 15:38:58 [main] DEBUG c.d.c.S.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-07-14 15:38:59 [main] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-07-14 15:38:59 [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - 116 mappings in 'requestMappingHandlerMapping'
+2025-07-14 15:38:59 [main] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2025-07-14 15:38:59 [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-07-14 15:38:59 [main] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-07-14 15:38:59 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-07-14 15:38:59 [main] INFO  c.d.capstone.CapstoneApplication - Started CapstoneApplication in 5.573 seconds (process running for 6.068)
+2025-07-14 15:39:04 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-14 15:39:04 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-07-14 15:39:04 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected StandardServletMultipartResolver
+2025-07-14 15:39:04 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected AcceptHeaderLocaleResolver
+2025-07-14 15:39:04 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected FixedThemeResolver
+2025-07-14 15:39:04 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@432c9f47
+2025-07-14 15:39:04 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.support.SessionFlashMapManager@48fcc19a
+2025-07-14 15:39:04 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2025-07-14 15:39:04 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 12 ms
+2025-07-14 15:39:46 [http-nio-8080-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - POST "/api/auth/login", parameters={}
+2025-07-14 15:39:46 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.dmcdesigns.capstone.Controllers.AuthController#authenticateUser(LoginRequest)
+2025-07-14 15:39:46 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Read "application/json;charset=UTF-8" to [com.dmcdesigns.capstone.DTOs.LoginRequest@35fb0590]
+2025-07-14 15:39:46 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-07-14 15:39:46 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [com.dmcdesigns.capstone.DTOs.JwtResponse@2fc9f561]
+2025-07-14 15:39:46 [http-nio-8080-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-07-14 15:39:47 [http-nio-8080-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/employees?size=1", parameters={masked}
+2025-07-14 15:39:47 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.dmcdesigns.capstone.Controllers.EmployeeController#getAllEmployees()
+2025-07-14 15:39:47 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-07-14 15:39:47 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [[Admin{role='Admin', hasAccess=true}, Manager{role='Manager', hasAccess=true, department='ENGINEERIN (truncated)...]
+2025-07-14 15:39:47 [http-nio-8080-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-07-14 15:39:47 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/employees?size=1", parameters={masked}
+2025-07-14 15:39:47 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.dmcdesigns.capstone.Controllers.EmployeeController#getAllEmployees()
+2025-07-14 15:39:47 [http-nio-8080-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/projects?size=1", parameters={masked}
+2025-07-14 15:39:47 [http-nio-8080-exec-9] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.dmcdesigns.capstone.Controllers.ProjectController#getAllProjects()
+2025-07-14 15:39:47 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-07-14 15:39:47 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [[Admin{role='Admin', hasAccess=true}, Manager{role='Manager', hasAccess=true, department='ENGINEERIN (truncated)...]
+2025-07-14 15:39:47 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-07-14 15:39:47 [http-nio-8080-exec-9] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-07-14 15:39:47 [http-nio-8080-exec-9] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [[Project{id=1, name='Customer Portal Redesign', status='ACTIVE', department='ENGINEERING', progressP (truncated)...]
+2025-07-14 15:39:47 [http-nio-8080-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-07-14 15:39:47 [http-nio-8080-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/projects?size=1", parameters={masked}
+2025-07-14 15:39:47 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.dmcdesigns.capstone.Controllers.ProjectController#getAllProjects()
+2025-07-14 15:39:47 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/projects/status/IN_PROGRESS?size=1", parameters={masked}
+2025-07-14 15:39:47 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.dmcdesigns.capstone.Controllers.ProjectController#getProjectsByStatus(String)
+2025-07-14 15:39:47 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-07-14 15:39:47 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [[Project{id=1, name='Customer Portal Redesign', status='ACTIVE', department='ENGINEERING', progressP (truncated)...]
+2025-07-14 15:39:47 [http-nio-8080-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-07-14 15:39:47 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-07-14 15:39:47 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [[]]
+2025-07-14 15:39:47 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-07-14 15:39:47 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/projects/status/IN_PROGRESS?size=1", parameters={masked}
+2025-07-14 15:39:47 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.dmcdesigns.capstone.Controllers.ProjectController#getProjectsByStatus(String)
+2025-07-14 15:39:47 [http-nio-8080-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/projects/status/COMPLETED?size=1", parameters={masked}
+2025-07-14 15:39:47 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.dmcdesigns.capstone.Controllers.ProjectController#getProjectsByStatus(String)
+2025-07-14 15:39:47 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-07-14 15:39:47 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [[]]
+2025-07-14 15:39:47 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-07-14 15:39:47 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-07-14 15:39:47 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [[Project{id=3, name='Data Migration', status='COMPLETED', department='IT', progressPercentage=100}]]
+2025-07-14 15:39:47 [http-nio-8080-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-07-14 15:39:47 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/projects/status/COMPLETED?size=1", parameters={masked}
+2025-07-14 15:39:47 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/employees?size=1000", parameters={masked}
+2025-07-14 15:39:47 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.dmcdesigns.capstone.Controllers.ProjectController#getProjectsByStatus(String)
+2025-07-14 15:39:47 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.dmcdesigns.capstone.Controllers.EmployeeController#getAllEmployees()
+2025-07-14 15:39:47 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-07-14 15:39:47 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-07-14 15:39:47 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [[Project{id=3, name='Data Migration', status='COMPLETED', department='IT', progressPercentage=100}]]
+2025-07-14 15:39:47 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [[Admin{role='Admin', hasAccess=true}, Manager{role='Manager', hasAccess=true, department='ENGINEERIN (truncated)...]
+2025-07-14 15:39:47 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-07-14 15:39:47 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-07-14 15:39:47 [http-nio-8080-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/employees?size=1000", parameters={masked}
+2025-07-14 15:39:47 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.dmcdesigns.capstone.Controllers.EmployeeController#getAllEmployees()
+2025-07-14 15:39:47 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2025-07-14 15:39:47 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [[Admin{role='Admin', hasAccess=true}, Manager{role='Manager', hasAccess=true, department='ENGINEERIN (truncated)...]
+2025-07-14 15:39:47 [http-nio-8080-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
