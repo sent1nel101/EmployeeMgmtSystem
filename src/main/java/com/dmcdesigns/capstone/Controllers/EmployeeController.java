@@ -1,6 +1,7 @@
 package com.dmcdesigns.capstone.Controllers;
 
 import com.dmcdesigns.capstone.Entities.Employee;
+import com.dmcdesigns.capstone.Entities.Admin;
 import com.dmcdesigns.capstone.Services.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,16 @@ public class EmployeeController {
     public ResponseEntity<List<Employee>> getAllEmployees() {
         List<Employee> employees = employeeService.getAllEmployees();
         return ResponseEntity.ok(employees);
+    }
+
+    @GetMapping("/health")
+    public ResponseEntity<String> getEmployeeHealth() {
+        try {
+            List<Employee> employees = employeeService.getAllEmployees();
+            return ResponseEntity.ok("Employee service is healthy. Found " + employees.size() + " employees.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Employee service error: " + e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
@@ -94,6 +105,46 @@ public class EmployeeController {
             return ResponseEntity.ok(projects);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/{id}/promote-to-admin")
+    public ResponseEntity<Employee> promoteToAdmin(@PathVariable Integer id) {
+        try {
+            Optional<Employee> employeeOpt = employeeService.getEmployeeById(id);
+            if (employeeOpt.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            Employee currentEmployee = employeeOpt.get();
+            
+            // Check if already an admin
+            if (currentEmployee instanceof Admin) {
+                return ResponseEntity.badRequest().build(); // Already an admin
+            }
+
+            // Create new Admin with same details but admin privileges
+            Admin newAdmin = new Admin(
+                currentEmployee.getFirstName(),
+                currentEmployee.getLastName(),
+                currentEmployee.getEmail(),
+                currentEmployee.getPhoneNumber(),
+                currentEmployee.getUsername(),
+                currentEmployee.getPassword(), // Keep existing password
+                currentEmployee.getDepartment()
+            );
+            
+            // Copy additional employee details
+            newAdmin.setHireDate(currentEmployee.getHireDate());
+            newAdmin.setSalary(currentEmployee.getSalary());
+
+            // Delete old employee record and save new admin
+            employeeService.deleteEmployee(id);
+            Employee savedAdmin = employeeService.createEmployee(newAdmin);
+            
+            return ResponseEntity.ok(savedAdmin);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

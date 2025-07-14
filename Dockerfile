@@ -1,5 +1,5 @@
 # Multi-stage build for Spring Boot application
-FROM openjdk:17-jdk-slim AS build
+FROM eclipse-temurin:21-jdk AS build
 
 # Set working directory
 WORKDIR /app
@@ -22,7 +22,10 @@ COPY src ./src
 RUN ./mvnw clean package -DskipTests
 
 # Production stage
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:21-jre
+
+# Install curl for health checks
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
 # Create app user for security
 RUN groupadd -r appuser && useradd -r -g appuser appuser
@@ -32,6 +35,9 @@ WORKDIR /app
 
 # Copy the JAR file from build stage
 COPY --from=build /app/target/*.jar app.jar
+
+# Create logs directory
+RUN mkdir -p /app/logs
 
 # Change ownership of the app directory
 RUN chown -R appuser:appuser /app
@@ -43,12 +49,11 @@ USER appuser
 EXPOSE 8080
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=3 \
     CMD curl -f http://localhost:8080/actuator/health || exit 1
 
-# Run the application
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+# JVM tuning for containers
+ENV JAVA_OPTS="-Xms512m -Xmx1024m -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/./urandom"
 
-# Optional: JVM tuning for containers
-ENV JAVA_OPTS="-Xms512m -Xmx1024m -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
+# Run the application
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/app.jar"]

@@ -2,6 +2,7 @@ package com.dmcdesigns.capstone.Entities;
 
 import com.dmcdesigns.capstone.Interfaces.Reviewable;
 import com.dmcdesigns.capstone.Interfaces.Searchable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
-public class User implements Reviewable, Searchable {
+public class User implements Searchable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
@@ -60,8 +61,10 @@ public class User implements Reviewable, Searchable {
     @Size(min = 2, max = 100, message = "Department must be between 2 and 100 characters")
     protected String department;
 
-    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
-    private List<PerformanceReview> performanceReviews = new ArrayList<>();
+    // Removed performance reviews relationship to prevent JSON serialization issues
+    // Using @Transient to prevent any Hibernate proxy issues
+    @Transient
+    private List<Object> performanceReviews = new ArrayList<>();
 
     /** Default constructor required by JPA */
     public User() {
@@ -162,36 +165,7 @@ public class User implements Reviewable, Searchable {
     }
 
     // ============ Reviewable Interface Implementation ============
-    
-    @Override
-    public List<PerformanceReview> getPerformanceReviews() {
-        return performanceReviews;
-    }
-
-    @Override
-    public void addPerformanceReview(PerformanceReview review) {
-        this.performanceReviews.add(review);
-        review.setEmployee(this);
-    }
-
-    @Override
-    public PerformanceReview getLatestPerformanceReview() {
-        if (performanceReviews.isEmpty()) {
-            return null;
-        }
-        return performanceReviews.get(performanceReviews.size() - 1);
-    }
-
-    @Override
-    public double getAverageRating() {
-        if (performanceReviews.isEmpty()) {
-            return 0.0;
-        }
-        return performanceReviews.stream()
-            .mapToInt(PerformanceReview::getRating)
-            .average()
-            .orElse(0.0);
-    }
+    // Temporarily disabled to prevent JSON serialization issues
 
     // ============ Searchable Interface Implementation ============
     

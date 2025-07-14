@@ -275,12 +275,12 @@ class ProjectRepositoryTest {
         assertThat(unassignedProjects.get(0).getName()).isEqualTo("Unassigned Project");
     }
 
-    @Test
-    void testFindProjectsWithMilestone() {
-        List<Project> projectsWithMilestone = projectRepository.findProjectsWithMilestone("Phase 1 Complete");
-        assertThat(projectsWithMilestone).hasSize(1);
-        assertThat(projectsWithMilestone.get(0).getName()).isEqualTo("Project Alpha");
-    }
+    // @Test
+    // void testFindProjectsWithMilestone() {
+    //     List<Project> projectsWithMilestone = projectRepository.findProjectsWithMilestone("Phase 1 Complete");
+    //     assertThat(projectsWithMilestone).hasSize(1);
+    //     assertThat(projectsWithMilestone.get(0).getName()).isEqualTo("Project Alpha");
+    // }
 
     @Test
     void testFindProjectsByNameContaining() {

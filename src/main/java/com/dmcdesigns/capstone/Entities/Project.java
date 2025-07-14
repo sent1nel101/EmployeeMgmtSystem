@@ -11,6 +11,7 @@ import java.util.HashSet;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.math.BigDecimal;
 
 @Entity
@@ -83,19 +84,16 @@ public class Project implements Reportable, Searchable {
     @JsonIgnore
     private Set<User> assignedEmployees = new HashSet<>();
 
-    @ElementCollection
-    @CollectionTable(name = "project_milestones", joinColumns = @JoinColumn(name = "project_id"))
-    @Column(name = "milestone")
+    @Transient
+    @JsonIgnore
     private List<String> milestones = new ArrayList<>();
 
-    @ElementCollection
-    @CollectionTable(name = "project_resources", joinColumns = @JoinColumn(name = "project_id"))
-    @Column(name = "resource")
+    @Transient
+    @JsonIgnore
     private List<String> resources = new ArrayList<>();
 
-    @ElementCollection
-    @CollectionTable(name = "project_risks", joinColumns = @JoinColumn(name = "project_id"))
-    @Column(name = "risk")
+    @Transient
+    @JsonIgnore
     private List<String> risks = new ArrayList<>();
 
     // Default constructor for JPA
@@ -250,15 +248,18 @@ public class Project implements Reportable, Searchable {
     }
 
     public void addMilestone(String milestone) {
-        this.milestones.add(milestone);
+        // Temporarily disabled - milestones collection is @Transient
+        // this.milestones.add(milestone);
     }
 
     public void addResource(String resource) {
-        this.resources.add(resource);
+        // Temporarily disabled - resources collection is @Transient
+        // this.resources.add(resource);
     }
 
     public void addRisk(String risk) {
-        this.risks.add(risk);
+        // Temporarily disabled - risks collection is @Transient
+        // this.risks.add(risk);
     }
 
     public BigDecimal getRemainingBudget() {

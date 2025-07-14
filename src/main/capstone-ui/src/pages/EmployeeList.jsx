@@ -151,6 +151,19 @@ const EmployeeList = () => {
       ),
     },
     {
+      field: 'userType',
+      headerName: 'Role',
+      minWidth: 100,
+      render: (value, row) => (
+        <Chip
+          label={value === 'ADMIN' ? 'Admin' : value === 'MANAGER' ? 'Manager' : 'Employee'}
+          size="small"
+          color={value === 'ADMIN' ? 'error' : value === 'MANAGER' ? 'warning' : 'default'}
+          variant={value === 'ADMIN' ? 'filled' : 'outlined'}
+        />
+      ),
+    },
+    {
       field: 'position',
       headerName: 'Position',
       minWidth: 150,

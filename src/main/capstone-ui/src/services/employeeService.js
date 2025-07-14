@@ -72,6 +72,12 @@ class EmployeeService {
     });
     return response.data;
   }
+
+  // Promote employee to admin
+  async promoteToAdmin(employeeId) {
+    const response = await api.post(`/employees/${employeeId}/promote-to-admin`);
+    return response.data;
+  }
 }
 
 export default new EmployeeService();

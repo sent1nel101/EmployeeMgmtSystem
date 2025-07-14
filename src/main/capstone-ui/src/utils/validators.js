@@ -80,10 +80,6 @@ export const validateEmployeeForm = (employee, isEdit = false) => {
     errors.lastName = 'Last name is required';
   }
 
-  if (!validateEmail(employee.email)) {
-    errors.email = 'Valid email address is required';
-  }
-
   if (!validateRequired(employee.department)) {
     errors.department = 'Department is required';
   }
@@ -96,14 +92,22 @@ export const validateEmployeeForm = (employee, isEdit = false) => {
     errors.phoneNumber = 'Phone number is required';
   }
 
-  if (!validateRequired(employee.username)) {
-    errors.username = 'Username is required';
-  }
-
   // Password is only required for new employees
   if (!isEdit && !validateRequired(employee.password)) {
     errors.password = 'Password is required';
   }
+
+  // For edit mode, validate email and username if they exist
+  if (isEdit) {
+    if (employee.email && !validateEmail(employee.email)) {
+      errors.email = 'Valid email address is required';
+    }
+    
+    if (employee.username && !validateRequired(employee.username)) {
+      errors.username = 'Username is required';
+    }
+  }
+  // For new employees, email and username are auto-generated, so no validation needed
 
   return {
     isValid: Object.keys(errors).length === 0,

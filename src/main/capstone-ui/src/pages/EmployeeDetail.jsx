@@ -21,7 +21,8 @@ import {
   Phone,
   Business,
   CalendarToday,
-  AttachMoney
+  AttachMoney,
+  AdminPanelSettings
 } from '@mui/icons-material';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import employeeService from '../services/employeeService';
@@ -41,6 +42,7 @@ const EmployeeDetail = () => {
   const [error, setError] = useState('');
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
+  const [promoteLoading, setPromoteLoading] = useState(false);
 
   useEffect(() => {
     const fetchEmployeeData = async () => {
@@ -104,6 +106,25 @@ const EmployeeDetail = () => {
       throw error; // Let the form handle the error
     } finally {
       setUpdateLoading(false);
+    }
+  };
+
+  const handlePromoteToAdmin = async () => {
+    if (!window.confirm(`Are you sure you want to promote ${employee.firstName} ${employee.lastName} to Admin? This will grant them full administrative access to the system.`)) {
+      return;
+    }
+
+    setPromoteLoading(true);
+    try {
+      const updatedEmployee = await employeeService.promoteToAdmin(id);
+      setEmployee(updatedEmployee);
+      // Show success message
+      alert(`${employee.firstName} ${employee.lastName} has been successfully promoted to Admin!`);
+    } catch (error) {
+      console.error('Error promoting employee:', error);
+      alert('Failed to promote employee to admin. Please try again.');
+    } finally {
+      setPromoteLoading(false);
     }
   };
 
@@ -194,15 +215,28 @@ const EmployeeDetail = () => {
           <Typography variant="h4" component="h1">
             {employee.firstName} {employee.lastName}
           </Typography>
-          {canEdit && (
-            <Button
-              variant="contained"
-              startIcon={<Edit />}
-              onClick={handleEdit}
-            >
-              Edit Employee
-            </Button>
-          )}
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            {canEdit && (
+              <Button
+                variant="contained"
+                startIcon={<Edit />}
+                onClick={handleEdit}
+              >
+                Edit Employee
+              </Button>
+            )}
+            {hasRole('ADMIN') && employee && employee.userType !== 'ADMIN' && (
+              <Button
+                variant="outlined"
+                color="secondary"
+                startIcon={<AdminPanelSettings />}
+                onClick={handlePromoteToAdmin}
+                disabled={promoteLoading}
+              >
+                {promoteLoading ? 'Promoting...' : 'Promote to Admin'}
+              </Button>
+            )}
+          </Box>
         </Box>
       </Box>
 

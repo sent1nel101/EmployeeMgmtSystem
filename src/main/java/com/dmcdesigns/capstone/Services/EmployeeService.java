@@ -17,10 +17,7 @@ public class EmployeeService {
     private EmployeeRepository employeeRepository;
 
     public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll().stream()
-                .filter(user -> user instanceof Employee)
-                .map(user -> (Employee) user)
-                .collect(Collectors.toList());
+        return employeeRepository.findAllEmployees();
     }
 
     public Optional<Employee> getEmployeeById(Integer id) {

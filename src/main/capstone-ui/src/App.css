@@ -68,3 +68,10 @@ button:hover{
   background-color: var(--secondary-color);
   color: var(--text-color);
 }
+
+
+/* @media(width > 800px){
+main > div{
+        width: 80vw !important;
+    }
+  } */
