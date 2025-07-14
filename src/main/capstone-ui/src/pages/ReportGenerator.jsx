@@ -215,7 +215,7 @@ const ReportGenerator = () => {
     }
   };
 
-  const canGenerateReports = hasRole('ADMIN') || hasRole('MANAGER') || hasRole('HR');
+  const canGenerateReports = hasRole('ADMIN') || hasRole('MANAGER');
 
   if (!canGenerateReports) {
     return (
