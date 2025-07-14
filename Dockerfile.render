@@ -28,9 +28,6 @@ RUN apt-get update && \
     apt-get install -y nginx curl gettext-base && \
     rm -rf /var/lib/apt/lists/*
 
-# Create app user
-RUN groupadd -r appuser && useradd -r -g appuser appuser
-
 # Set working directory
 WORKDIR /app
 
@@ -46,11 +43,9 @@ COPY src/main/capstone-ui/nginx.conf /etc/nginx/nginx.conf.template
 # Create logs directory
 RUN mkdir -p /app/logs
 
-# Change ownership
-RUN chown -R appuser:appuser /app && \
-    chown -R appuser:appuser /usr/share/nginx/html && \
-    chown -R appuser:appuser /var/log/nginx && \
-    chown -R appuser:appuser /var/lib/nginx
+# Change ownership of app directory only
+RUN chown -R root:root /app && \
+    chown -R root:root /usr/share/nginx/html
 
 # Set default port
 ENV PORT=8080
@@ -63,22 +58,34 @@ ENV JAVA_OPTS="-Xms512m -Xmx1024m -XX:+UseContainerSupport -XX:MaxRAMPercentage=
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=3 \
-    CMD curl -f http://localhost:${PORT}/actuator/health || exit 1
-
-# Switch to app user
-USER appuser
+    CMD curl -f http://localhost:${PORT}/health || exit 1
 
 # Create startup script
 RUN cat > /app/start.sh << 'EOF'
 #!/bin/bash
-# Replace PORT in nginx config
-envsubst '$$PORT' < /etc/nginx/nginx.conf.template > /tmp/nginx.conf
+
+# Set up ports - nginx gets the main port, backend gets +1
+export NGINX_PORT=${PORT:-8080}
+export BACKEND_PORT=$((NGINX_PORT + 1))
+
+echo "Starting services..."
+echo "Nginx will listen on port: $NGINX_PORT"
+echo "Backend will listen on port: $BACKEND_PORT"
+
+# Replace PORT and BACKEND_PORT in nginx config
+envsubst '$PORT $BACKEND_PORT' < /etc/nginx/nginx.conf.template > /tmp/nginx.conf
 
 # Start nginx in background
+echo "Starting nginx..."
 nginx -c /tmp/nginx.conf -g 'daemon off;' &
+NGINX_PID=$!
+
+# Give nginx a moment to start
+sleep 2
 
 # Start Spring Boot application
-exec java $JAVA_OPTS -Dserver.port=$PORT -Dserver.address=0.0.0.0 -jar /app/app.jar
+echo "Starting Spring Boot application..."
+exec java $JAVA_OPTS -Dserver.port=$BACKEND_PORT -Dserver.address=0.0.0.0 -jar /app/app.jar
 EOF
 
 RUN chmod +x /app/start.sh
