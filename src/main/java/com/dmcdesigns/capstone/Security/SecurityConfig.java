@@ -56,7 +56,7 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/", "/api", "/health", "/actuator/**").permitAll()
-                .requestMatchers("/static/**", "/css/**", "/js/**", "/images/**", "/*.html", "/*.js", "/*.css").permitAll()
+                .requestMatchers("/static/**", "/css/**", "/js/**", "/images/**", "/assets/**", "/*.html", "/*.js", "/*.css", "/*.ico", "/*.svg").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
