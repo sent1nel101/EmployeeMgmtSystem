@@ -35,9 +35,7 @@ import {
   Work,
   Business
 } from '@mui/icons-material';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+
 import reportService from '../services/reportService';
 import { DEPARTMENTS, PROJECT_STATUS } from '../utils/constants';
 import { useAuth } from '../hooks/useAuth.jsx';
@@ -294,19 +292,23 @@ const ReportGenerator = () => {
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
-                  <DatePicker
+                  <TextField
+                    fullWidth
                     label="Start Date"
-                    value={filters.startDate}
-                    onChange={(value) => handleFilterChange('startDate', value)}
-                    slotProps={{ textField: { fullWidth: true } }}
+                    type="date"
+                    value={filters.startDate || ''}
+                    onChange={(e) => handleFilterChange('startDate', e.target.value)}
+                    InputLabelProps={{ shrink: true }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <DatePicker
+                  <TextField
+                    fullWidth
                     label="End Date"
-                    value={filters.endDate}
-                    onChange={(value) => handleFilterChange('endDate', value)}
-                    slotProps={{ textField: { fullWidth: true } }}
+                    type="date"
+                    value={filters.endDate || ''}
+                    onChange={(e) => handleFilterChange('endDate', e.target.value)}
+                    InputLabelProps={{ shrink: true }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>

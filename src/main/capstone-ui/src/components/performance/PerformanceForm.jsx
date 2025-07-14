@@ -18,9 +18,7 @@ import {
   Alert,
   CircularProgress
 } from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+
 
 const PerformanceForm = ({
   open,
@@ -189,32 +187,28 @@ const PerformanceForm = ({
               </Grid>
               
               <Grid item xs={12} sm={6}>
-                <DatePicker
+                <TextField
+                  fullWidth
                   label="Review Period Start"
-                  value={formData.reviewPeriodStart}
-                  onChange={(value) => handleChange('reviewPeriodStart', value)}
-                  slotProps={{
-                    textField: {
-                      fullWidth: true,
-                      error: !!errors.reviewPeriodStart,
-                      helperText: errors.reviewPeriodStart
-                    }
-                  }}
+                  type="date"
+                  value={formData.reviewPeriodStart || ''}
+                  onChange={(e) => handleChange('reviewPeriodStart', e.target.value)}
+                  error={!!errors.reviewPeriodStart}
+                  helperText={errors.reviewPeriodStart}
+                  InputLabelProps={{ shrink: true }}
                 />
               </Grid>
               
               <Grid item xs={12} sm={6}>
-                <DatePicker
+                <TextField
+                  fullWidth
                   label="Review Period End"
-                  value={formData.reviewPeriodEnd}
-                  onChange={(value) => handleChange('reviewPeriodEnd', value)}
-                  slotProps={{
-                    textField: {
-                      fullWidth: true,
-                      error: !!errors.reviewPeriodEnd,
-                      helperText: errors.reviewPeriodEnd
-                    }
-                  }}
+                  type="date"
+                  value={formData.reviewPeriodEnd || ''}
+                  onChange={(e) => handleChange('reviewPeriodEnd', e.target.value)}
+                  error={!!errors.reviewPeriodEnd}
+                  helperText={errors.reviewPeriodEnd}
+                  InputLabelProps={{ shrink: true }}
                 />
               </Grid>
 

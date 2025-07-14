@@ -2,8 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+
 
 // Theme and providers
 import { CustomThemeProvider, useThemeMode } from './hooks/useTheme.jsx';
@@ -40,136 +39,134 @@ const AppContent = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <AuthProvider>
-          <Router>
-            <Routes>
-              {/* Public routes */}
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/unauthorized" element={<Unauthorized />} />
-              
-              {/* Protected routes */}
-              <Route path="/" element={
-                <ProtectedRoute>
-                  <Layout>
-                    <Dashboard />
-                  </Layout>
-                </ProtectedRoute>
-              } />
-              
-              <Route path="/dashboard" element={
-                <ProtectedRoute>
-                  <Layout>
-                    <Dashboard />
-                  </Layout>
-                </ProtectedRoute>
-              } />
-              
-              <Route path="/employees" element={
-                <ProtectedRoute>
-                  <Layout>
-                    <EmployeeList />
-                  </Layout>
-                </ProtectedRoute>
-              } />
-              
-              <Route path="/employees/new" element={
-                <ProtectedRoute>
-                  <Layout>
-                    <EmployeeDetail />
-                  </Layout>
-                </ProtectedRoute>
-              } />
-              
-              <Route path="/employees/edit/:id" element={
-                <ProtectedRoute>
-                  <Layout>
-                    <EmployeeDetail />
-                  </Layout>
-                </ProtectedRoute>
-              } />
-              
-              <Route path="/employees/:id" element={
-                <ProtectedRoute>
-                  <Layout>
-                    <EmployeeDetail />
-                  </Layout>
-                </ProtectedRoute>
-              } />
-              
-              <Route path="/projects" element={
-                <ProtectedRoute>
-                  <Layout>
-                    <ProjectList />
-                  </Layout>
-                </ProtectedRoute>
-              } />
-              
-              <Route path="/projects/:id" element={
-                <ProtectedRoute>
-                  <Layout>
-                    <ProjectDetail />
-                  </Layout>
-                </ProtectedRoute>
-              } />
-              
-              <Route path="/departments" element={
-                <ProtectedRoute>
-                  <Layout>
-                    <DepartmentList />
-                  </Layout>
-                </ProtectedRoute>
-              } />
-              
-              <Route path="/search" element={
-                <ProtectedRoute>
-                  <Layout>
-                    <SearchPage />
-                  </Layout>
-                </ProtectedRoute>
-              } />
-              
-              <Route path="/reports" element={
-                <ProtectedRoute>
-                  <Layout>
-                    <ReportGenerator />
-                  </Layout>
-                </ProtectedRoute>
-              } />
-              
-              <Route path="/performance" element={
-                <ProtectedRoute>
-                  <Layout>
-                    <PerformanceReviews />
-                  </Layout>
-                </ProtectedRoute>
-              } />
-              
-              <Route path="/profile" element={
-                <ProtectedRoute>
-                  <Layout>
-                    <Profile />
-                  </Layout>
-                </ProtectedRoute>
-              } />
-              
-              <Route path="/settings" element={
-                <ProtectedRoute>
-                  <Layout>
-                    <Settings />
-                  </Layout>
-                </ProtectedRoute>
-              } />
-              
-              {/* Catch all route */}
-              <Route path="*" element={<Navigate to="/dashboard" replace />} />
-            </Routes>
-          </Router>
-        </AuthProvider>
-      </LocalizationProvider>
+      <AuthProvider>
+        <Router>
+          <Routes>
+            {/* Public routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/unauthorized" element={<Unauthorized />} />
+            
+            {/* Protected routes */}
+            <Route path="/" element={
+              <ProtectedRoute>
+                <Layout>
+                  <Dashboard />
+                </Layout>
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/dashboard" element={
+              <ProtectedRoute>
+                <Layout>
+                  <Dashboard />
+                </Layout>
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/employees" element={
+              <ProtectedRoute>
+                <Layout>
+                  <EmployeeList />
+                </Layout>
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/employees/new" element={
+              <ProtectedRoute>
+                <Layout>
+                  <EmployeeDetail />
+                </Layout>
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/employees/edit/:id" element={
+              <ProtectedRoute>
+                <Layout>
+                  <EmployeeDetail />
+                </Layout>
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/employees/:id" element={
+              <ProtectedRoute>
+                <Layout>
+                  <EmployeeDetail />
+                </Layout>
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/projects" element={
+              <ProtectedRoute>
+                <Layout>
+                  <ProjectList />
+                </Layout>
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/projects/:id" element={
+              <ProtectedRoute>
+                <Layout>
+                  <ProjectDetail />
+                </Layout>
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/departments" element={
+              <ProtectedRoute>
+                <Layout>
+                  <DepartmentList />
+                </Layout>
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/search" element={
+              <ProtectedRoute>
+                <Layout>
+                  <SearchPage />
+                </Layout>
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/reports" element={
+              <ProtectedRoute>
+                <Layout>
+                  <ReportGenerator />
+                </Layout>
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/performance" element={
+              <ProtectedRoute>
+                <Layout>
+                  <PerformanceReviews />
+                </Layout>
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/profile" element={
+              <ProtectedRoute>
+                <Layout>
+                  <Profile />
+                </Layout>
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/settings" element={
+              <ProtectedRoute>
+                <Layout>
+                  <Settings />
+                </Layout>
+              </ProtectedRoute>
+            } />
+            
+            {/* Catch all route */}
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Routes>
+        </Router>
+      </AuthProvider>
     </ThemeProvider>
   );
 };
