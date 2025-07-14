@@ -131,12 +131,12 @@ const AppContent = () => {
             } />
             
             <Route path="/reports" element={
-            <ProtectedRoute>
-            <Layout>
-            <div>Reports page temporarily disabled for debugging</div>
-            </Layout>
-            </ProtectedRoute>
-            } />
+                <ProtectedRoute>
+                  <Layout>
+                    <ReportGenerator />
+                  </Layout>
+                </ProtectedRoute>
+              } />
             
             <Route path="/performance" element={
               <ProtectedRoute>
