@@ -5,10 +5,6 @@ import authService from '../../services/authService';
 const ProtectedRoute = ({ children, requiredRole = null, requiredPermission = null }) => {
   const location = useLocation();
   const isAuthenticated = authService.isAuthenticated();
-  
-  console.log('ProtectedRoute - isAuthenticated:', isAuthenticated);
-  console.log('ProtectedRoute - current path:', location.pathname);
-  console.log('ProtectedRoute - token:', authService.getToken());
 
   // Check if user is authenticated
   if (!isAuthenticated) {
