@@ -131,11 +131,11 @@ const AppContent = () => {
             } />
             
             <Route path="/reports" element={
-              <ProtectedRoute>
-                <Layout>
-                  <ReportGenerator />
-                </Layout>
-              </ProtectedRoute>
+            <ProtectedRoute>
+            <Layout>
+            <div>Reports page temporarily disabled for debugging</div>
+            </Layout>
+            </ProtectedRoute>
             } />
             
             <Route path="/performance" element={
