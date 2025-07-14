@@ -1,13 +1,14 @@
 package com.dmcdesigns.capstone.Controllers;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
 
-@Controller
+@RestController
 public class HomeController {
 
     @GetMapping("/")
-    public String index() {
-        return "index";
+    public ResponseEntity<String> index() {
+        return ResponseEntity.ok("Employee Management System API - Welcome!");
     }
 
 }
