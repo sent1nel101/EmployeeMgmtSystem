@@ -1,77 +1,7 @@
+/* Minimal CSS to avoid conflicts with Material-UI */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-/* Dark Theme - Always Applied */
-:root{
-  --background-color: #1f1f1f;
-  --text-color: #c3c2c2;
-  --primary-color: #4a90e2;
-  --secondary-color: #50e3c2;
-  --accent-color: #f5a623;
-  --border-radius: 8px;
-  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Light Theme */
-@media (prefers-color-scheme: light) {
-  :root{
-    --background-color: #c3c2c2;
-    --text-color: #1f1f1f;
-    --primary-color: #4a90e2;
-    --secondary-color: #50e3c2;
-    --accent-color: #f5a623;
-  --border-radius: 8px;
-  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-}
-
-/* Utilities */
-.highlight-text {
-  color: var(--accent-color);
-}
-
-.title-smaller{
-  font-size: 1.75rem;
-}
-
-/* Global Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  color: var(--text-color) !important;
-}
-
+/* Only keep essential styling */
 body {
   font-family: 'Poppins', sans-serif;
-  font-size: 16px;
-  background-color: var(--background-color);
-  color: var(--text-color);
-  display: grid;
-  place-items: center;
-  text-align: center;
 }
-
- /* Button styles */
-button {
-  background-color: var(--primary-color);
-  color: var(--text-color);
-  border: 1px solid var(--primary-color);
-  padding: 10px 20px;
-  margin: 1rem 0;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  box-shadow: var(--box-shadow);
-  transition: background-color 0.3s ease;
-}
-
-button:hover{
-  background-color: var(--secondary-color);
-  color: var(--text-color);
-}
-
-
-/* @media(width > 800px){
-main > div{
-        width: 80vw !important;
-    }
-  } */
