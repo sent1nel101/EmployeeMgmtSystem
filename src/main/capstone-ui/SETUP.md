@@ -27,7 +27,7 @@
 - `/projects` - Project management
 - `/departments` - Department overview
 - `/search` - Global search
-- `/reports` - Report generator
+
 - `/performance` - Performance reviews
 
 ## Test Login

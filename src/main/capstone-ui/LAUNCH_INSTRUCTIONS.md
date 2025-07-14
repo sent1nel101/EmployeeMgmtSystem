@@ -60,7 +60,7 @@ Navigate to: `http://localhost:3000`
 - Projects (`/projects`) - Project listings
 - Departments (`/departments`) - Department stats
 - Search (`/search`) - Global search interface
-- Reports (`/reports`) - Report generator
+
 - Performance (`/performance`) - Performance reviews
 
 ### 🎨 **UI Features:**
