@@ -17,7 +17,8 @@ COPY .mvn .mvn
 COPY pom.xml .
 RUN chmod +x ./mvnw
 RUN ./mvnw dependency:go-offline -B
-COPY src ./src
+COPY src/main/ ./src/main/
+COPY src/test/ ./src/test/
 RUN ./mvnw clean package -DskipTests
 
 # Stage 3: Production Runtime
