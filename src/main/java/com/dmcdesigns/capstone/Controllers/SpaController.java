@@ -18,7 +18,7 @@ public class SpaController {
         "/projects/**",
         "/departments",
         "/search",
-        
+        "/reports",
         "/performance",
         "/profile",
         "/settings",
