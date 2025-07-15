@@ -166,6 +166,7 @@ public class User implements Reviewable, Searchable {
     // ============ Reviewable Interface Implementation ============
     
     @Override
+    @JsonIgnore
     public List<PerformanceReview> getPerformanceReviews() {
         return performanceReviews;
     }
@@ -177,6 +178,7 @@ public class User implements Reviewable, Searchable {
     }
 
     @Override
+    @JsonIgnore
     public PerformanceReview getLatestPerformanceReview() {
         if (performanceReviews.isEmpty()) {
             return null;
@@ -185,6 +187,7 @@ public class User implements Reviewable, Searchable {
     }
 
     @Override
+    @JsonIgnore
     public double getAverageRating() {
         if (performanceReviews.isEmpty()) {
             return 0.0;
