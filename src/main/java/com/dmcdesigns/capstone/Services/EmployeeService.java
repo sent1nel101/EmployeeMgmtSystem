@@ -5,6 +5,7 @@ import com.dmcdesigns.capstone.Entities.User;
 import com.dmcdesigns.capstone.Repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,7 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Transactional(readOnly = true)
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll().stream()
                 .filter(user -> user instanceof Employee)
@@ -58,6 +60,7 @@ public class EmployeeService {
         employeeRepository.delete(employee);
     }
 
+    @Transactional(readOnly = true)
     public List<Employee> getEmployeesByDepartment(String department) {
         return employeeRepository.getUsersByDepartment(department).stream()
                 .filter(user -> user instanceof Employee)

@@ -6,6 +6,7 @@ import com.dmcdesigns.capstone.Repositories.ProjectRepository;
 import com.dmcdesigns.capstone.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -31,6 +32,7 @@ public class ProjectService {
 
     // ============ Basic CRUD Operations ============
 
+    @Transactional(readOnly = true)
     public List<Project> getAllProjects() {
         return projectRepository.findAll();
     }

@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @GetMapping
+    @Transactional(readOnly = true)
     public ResponseEntity<List<Employee>> getAllEmployees() {
         List<Employee> employees = employeeService.getAllEmployees();
         return ResponseEntity.ok(employees);
@@ -62,6 +64,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/department/{department}")
+    @Transactional(readOnly = true)
     public ResponseEntity<List<Employee>> getEmployeesByDepartment(@PathVariable String department) {
         List<Employee> employees = employeeService.getEmployeesByDepartment(department);
         return ResponseEntity.ok(employees);
