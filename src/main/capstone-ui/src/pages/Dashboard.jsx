@@ -45,42 +45,33 @@ const Dashboard = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    console.log('Dashboard useEffect running');
     fetchDashboardData();
   }, []);
 
   const fetchDashboardData = async () => {
-    console.log('fetchDashboardData called');
     try {
       setLoading(true);
-      console.log('Loading set to true');
       
       // Fetch employees data
       const employeesResponse = await employeeService.getAllEmployees({ size: 1 });
-      console.log('Employees response:', employeesResponse);
       
       // Fetch projects data
       const projectsResponse = await projectService.getAllProjects({ size: 1 });
-      console.log('Projects response:', projectsResponse);
       const activeProjectsResponse = await projectService.getProjectsByStatus('ACTIVE', { size: 1 });
-      console.log('Active projects response:', activeProjectsResponse);
       const completedProjectsResponse = await projectService.getProjectsByStatus('COMPLETED', { size: 1 });
-      console.log('Completed projects response:', completedProjectsResponse);
       
       // Get unique departments count
       const allEmployeesResponse = await employeeService.getAllEmployees({ size: 1000 });
       const departments = new Set(allEmployeesResponse.content?.map(emp => emp.department) || []);
 
-      const dashboardDataToSet = {
+      setDashboardData({
         totalEmployees: employeesResponse.totalElements || 0,
         totalProjects: projectsResponse.totalElements || 0,
         activeProjects: activeProjectsResponse.totalElements || 0,
         completedProjects: completedProjectsResponse.totalElements || 0,
         totalDepartments: departments.size,
         recentActivities: []
-      };
-      console.log('Dashboard data to set:', dashboardDataToSet);
-      setDashboardData(dashboardDataToSet);
+      });
 
       // Prepare chart data
       await fetchChartData(allEmployeesResponse.content, projectsResponse.content);
@@ -89,7 +80,6 @@ const Dashboard = () => {
       console.error('Dashboard error:', error);
     } finally {
       setLoading(false);
-      console.log('Loading set to false');
     }
   };
 
