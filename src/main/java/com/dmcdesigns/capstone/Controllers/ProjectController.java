@@ -115,6 +115,7 @@ public class ProjectController {
     // ============ Project Filtering and Search ============
     
     @GetMapping("/status/{status}")
+    @Transactional(readOnly = true)
     public ResponseEntity<List<Project>> getProjectsByStatus(@PathVariable String status) {
         List<Project> projects = projectService.getProjectsByStatus(status);
         return ResponseEntity.ok(projects);

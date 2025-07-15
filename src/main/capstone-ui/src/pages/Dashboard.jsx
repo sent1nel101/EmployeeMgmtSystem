@@ -60,6 +60,8 @@ const Dashboard = () => {
       const activeProjectsResponse = await projectService.getProjectsByStatus('ACTIVE', { size: 1 });
       const completedProjectsResponse = await projectService.getProjectsByStatus('COMPLETED', { size: 1 });
       
+      console.log('Active projects response:', activeProjectsResponse);
+      
       // Get unique departments count
       const allEmployeesResponse = await employeeService.getAllEmployees({ size: 1000 });
       const departments = new Set(allEmployeesResponse.content?.map(emp => emp.department) || []);

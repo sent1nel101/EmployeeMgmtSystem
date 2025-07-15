@@ -41,6 +41,7 @@ public class ProjectService {
         return projectRepository.findById(id);
     }
 
+    @Transactional(readOnly = true)
     public List<Project> getProjectsByStatus(String status) {
         return projectRepository.findAllByStatus(status);
     }
