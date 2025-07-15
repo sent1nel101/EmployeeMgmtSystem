@@ -78,7 +78,7 @@ public class DataSeeder implements CommandLineRunner {
     private void seedUsers() {
         // Admin User - Full system access
         Admin admin = new Admin("System", "Administrator", "admin@ourcompany.com", "555-0001", 
-                               "admin", passwordEncoder.encode("admin123"), "IT");
+                               "admin", passwordEncoder.encode("admin123"), "ENGINEERING");
         userRepository.save(admin);
 
         // Manager User - Team management and project oversight

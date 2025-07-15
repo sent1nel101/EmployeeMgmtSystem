@@ -1,6 +1,7 @@
 # Employee Management System
 
 A full-stack web application for managing employee information, projects, and organizational data with role-based access control and modern user interface.
+View Fullstack Application at: https://employeemgmtsystem-production.up.railway.app/dashboard
 
 ## Technologies Used
 
@@ -26,46 +27,46 @@ A full-stack web application for managing employee information, projects, and or
 
 ## Features
 
-### 🔐 Authentication & Security
+### Authentication & Security
 - User registration with auto-generated email addresses
 - JWT-based authentication with secure password hashing
 - Password reset functionality with token validation
 - Role-based access control (Admin, Manager, Employee)
 
-### 👥 Employee Management
+### Employee Management
 - Complete CRUD operations for employee records
 - Employee profiles with personal and professional information
 - Department assignment and management
 - Salary and hire date tracking
 - Advanced search and filtering capabilities
 
-### 📊 Project Management
+### Project Management
 - Project creation and assignment
 - Progress tracking and status updates
 - Budget management and monitoring
 - Project timeline visualization
 - Team member assignment
 
-### 📈 Dashboard & Analytics
+### Dashboard & Analytics
 - Executive dashboard with key metrics
 - Employee statistics and departmental insights
 - Project status overview
 - Performance indicators and charts
 
-### ⚙️ User Experience
+### User Experience
 - **Responsive Design** - Mobile-friendly interface
 - **Dark/Light Theme** - User-customizable appearance
 - **Profile Management** - Personal settings and information
 - **Settings Page** - Interface customization options
 - **Search Functionality** - Global search across employees and projects
 
-### 📋 Administrative Features
+### Administrative Features
 - **Performance Reviews** - Employee evaluation system
 - **Report Generation** - Comprehensive reporting tools
 - **Department Management** - Organizational structure control
 - **User Role Management** - Permission and access control
 
-### 🛠️ Technical Features
+### Technical Features
 - **Auto-seeded Test Data** - Pre-populated database for development
 - **Form Validation** - Client and server-side validation
 - **Error Handling** - Comprehensive error management
@@ -111,3 +112,5 @@ docker-compose -f docker-compose.prod.yml up -d
 ## License
 
 This project is developed as part of a software engineering capstone program.
+
+
