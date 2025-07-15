@@ -22,6 +22,11 @@ mvn clean package -DskipTests
 
 # Copy JAR file to root directory as app.jar
 echo "Copying JAR file..."
+echo "Current directory: $(pwd)"
+echo "Target directory contents:"
+ls -la target/
+echo "Copying JAR..."
 cp target/*.jar app.jar
-
+echo "Root directory after copy:"
+ls -la app.jar
 echo "Build complete!"
