@@ -37,6 +37,7 @@ public class PerformanceReview implements Reportable, Searchable {
     @ElementCollection
     @CollectionTable(name = "review_comments", joinColumns = @JoinColumn(name = "review_id"))
     @Column(name = "comment")
+    @JsonIgnore
     private List<String> reviewComments = new ArrayList<>();
 
     @Min(value = 1, message = "Rating must be between 1 and 5")
@@ -47,6 +48,7 @@ public class PerformanceReview implements Reportable, Searchable {
     @ElementCollection
     @CollectionTable(name = "review_goals", joinColumns = @JoinColumn(name = "review_id"))
     @Column(name = "goal")
+    @JsonIgnore
     private List<String> goals = new ArrayList<>();
 
     @NotBlank(message = "Department is required")

@@ -86,16 +86,19 @@ public class Project implements Reportable, Searchable {
     @ElementCollection
     @CollectionTable(name = "project_milestones", joinColumns = @JoinColumn(name = "project_id"))
     @Column(name = "milestone")
+    @JsonIgnore
     private List<String> milestones = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "project_resources", joinColumns = @JoinColumn(name = "project_id"))
     @Column(name = "resource")
+    @JsonIgnore
     private List<String> resources = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "project_risks", joinColumns = @JoinColumn(name = "project_id"))
     @Column(name = "risk")
+    @JsonIgnore
     private List<String> risks = new ArrayList<>();
 
     // Default constructor for JPA
