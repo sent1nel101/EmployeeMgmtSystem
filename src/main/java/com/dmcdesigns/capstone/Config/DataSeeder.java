@@ -32,14 +32,24 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        System.out.println("🔍 DataSeeder starting - checking database state...");
+        long userCount = userRepository.count();
+        System.out.println("📊 Current user count: " + userCount);
+        
         // Only seed if database is empty to avoid duplicates
-        if (userRepository.count() == 0) {
+        if (userCount == 0) {
             System.out.println("🌱 Seeding database with test users and sample data...");
-            seedUsers();
-            seedEmployees(); // Seed sample employees after test users
-            System.out.println("✅ Test users created successfully! Check TEST_CREDENTIALS.md for login details.");
+            try {
+                seedUsers();
+                seedEmployees(); // Seed sample employees after test users
+                System.out.println("✅ Test users created successfully! Check TEST_CREDENTIALS.md for login details.");
+                System.out.println("🔐 Admin login: admin@ourcompany.com / admin123");
+            } catch (Exception e) {
+                System.err.println("❌ ERROR during database seeding: " + e.getMessage());
+                e.printStackTrace();
+            }
         } else {
-            System.out.println("ℹ️ Database already contains users - skipping user seeding");
+            System.out.println("ℹ️ Database already contains " + userCount + " users - skipping user seeding");
         }
         
         if (projectRepository.count() == 0) {
