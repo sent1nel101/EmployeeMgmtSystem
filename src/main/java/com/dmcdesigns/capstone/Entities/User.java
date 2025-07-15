@@ -2,6 +2,7 @@ package com.dmcdesigns.capstone.Entities;
 
 import com.dmcdesigns.capstone.Interfaces.Reviewable;
 import com.dmcdesigns.capstone.Interfaces.Searchable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.util.List;
@@ -61,6 +62,7 @@ public class User implements Reviewable, Searchable {
     protected String department;
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<PerformanceReview> performanceReviews = new ArrayList<>();
 
     /** Default constructor required by JPA */
