@@ -56,4 +56,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=3 \
 ENV JAVA_OPTS="-Xms512m -Xmx1024m -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/./urandom"
 
 # Run the application
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/app.jar"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -Dspring.profiles.active=railway -jar /app/app.jar"]
