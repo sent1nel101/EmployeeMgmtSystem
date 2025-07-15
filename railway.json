@@ -5,7 +5,7 @@
     "buildCommand": "bash build.sh"
   },
   "deploy": {
-    "startCommand": "java -Xms256m -Xmx512m -Dserver.address=0.0.0.0 -Dspring.profiles.active=railway -Djava.awt.headless=true -jar app.jar",
+    "startCommand": "java -Xms256m -Xmx512m -Dserver.address=0.0.0.0 -Dspring.profiles.active=railway -Djava.awt.headless=true -jar target/*.jar",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }
