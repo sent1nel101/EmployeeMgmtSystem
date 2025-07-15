@@ -254,7 +254,7 @@ const SearchPage = () => {
   ];
 
   return (
-    <Container style={{ width: '70vw', maxWidth: 'none' }}
+    <Container sx={{ width: '70vw', maxWidth: 'none' }}
       <Box sx={{ mb: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Search
