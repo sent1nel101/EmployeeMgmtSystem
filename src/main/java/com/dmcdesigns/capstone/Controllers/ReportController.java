@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -28,6 +29,7 @@ public class ReportController {
      * GET /api/reports/employee-roster
      */
     @GetMapping("/employee-roster")
+    @Transactional(readOnly = true)
     public ResponseEntity<byte[]> generateEmployeeRosterReport() {
         try {
             byte[] pdfBytes = reportService.generateEmployeeRosterReport();
@@ -54,6 +56,7 @@ public class ReportController {
      * GET /api/reports/salary-analysis
      */
     @GetMapping("/salary-analysis")
+    @Transactional(readOnly = true)
     public ResponseEntity<byte[]> generateSalaryAnalysisReport() {
         try {
             byte[] pdfBytes = reportService.generateSalaryAnalysisReport();
@@ -80,6 +83,7 @@ public class ReportController {
      * GET /api/reports/performance-summary
      */
     @GetMapping("/performance-summary")
+    @Transactional(readOnly = true)
     public ResponseEntity<byte[]> generatePerformanceSummaryReport() {
         try {
             byte[] pdfBytes = reportService.generatePerformanceSummaryReport();
@@ -168,6 +172,7 @@ public class ReportController {
      * POST /api/reports/employees
      */
     @PostMapping("/employees")
+    @Transactional(readOnly = true)
     public ResponseEntity<Object> generateEmployeesReport(@RequestBody(required = false) Object filters) {
         try {
             // Get actual employee count from service

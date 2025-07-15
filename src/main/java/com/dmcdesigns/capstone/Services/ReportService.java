@@ -19,6 +19,7 @@ import org.jfree.data.general.DefaultPieDataset;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -46,6 +47,7 @@ public class ReportService {
     /**
      * Generate Employee Roster Report
      */
+    @Transactional(readOnly = true)
     public byte[] generateEmployeeRosterReport() throws IOException {
         PDDocument document = new PDDocument();
         try {
@@ -123,6 +125,7 @@ public class ReportService {
     /**
      * Generate Salary Analysis Report with Charts
      */
+    @Transactional(readOnly = true)
     public byte[] generateSalaryAnalysisReport() throws IOException {
         PDDocument document = new PDDocument();
         try {
@@ -191,6 +194,7 @@ public class ReportService {
     /**
      * Generate Performance Summary Report
      */
+    @Transactional(readOnly = true)
     public byte[] generatePerformanceSummaryReport() throws IOException {
         PDDocument document = new PDDocument();
         try {
