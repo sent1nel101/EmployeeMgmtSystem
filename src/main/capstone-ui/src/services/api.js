@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Base API configuration - Updated for Railway deployment
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://employeemgmtsystem-production.up.railway.app/api';
+// Base API configuration - Use relative URLs since frontend is served by backend
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
