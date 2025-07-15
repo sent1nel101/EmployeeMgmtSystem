@@ -163,7 +163,7 @@ export const theme = createTheme({
 // Status colors for projects
 export const statusColors = {
   PLANNING: '#1976d2',
-  IN_PROGRESS: '#2e7d32',
+  ACTIVE: '#2e7d32',
   ON_HOLD: '#ed6c02',
   COMPLETED: '#388e3c',
   CANCELLED: '#d32f2f',

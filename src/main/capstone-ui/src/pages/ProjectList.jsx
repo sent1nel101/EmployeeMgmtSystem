@@ -100,7 +100,7 @@ const ProjectList = () => {
     switch (status) {
       case 'PLANNING':
         return 'default';
-      case 'IN_PROGRESS':
+      case 'ACTIVE':
         return 'primary';
       case 'ON_HOLD':
         return 'warning';

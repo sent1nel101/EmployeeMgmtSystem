@@ -57,7 +57,7 @@ const Dashboard = () => {
       
       // Fetch projects data
       const projectsResponse = await projectService.getAllProjects({ size: 1 });
-      const activeProjectsResponse = await projectService.getProjectsByStatus('IN_PROGRESS', { size: 1 });
+      const activeProjectsResponse = await projectService.getProjectsByStatus('ACTIVE', { size: 1 });
       const completedProjectsResponse = await projectService.getProjectsByStatus('COMPLETED', { size: 1 });
       
       // Get unique departments count
@@ -201,7 +201,7 @@ const Dashboard = () => {
             loading={loading}
             trend="up"
             trendValue="+12%"
-            onClick={() => navigate('/projects?status=IN_PROGRESS')}
+            onClick={() => navigate('/projects?status=ACTIVE')}
           />
         </Grid>
 
