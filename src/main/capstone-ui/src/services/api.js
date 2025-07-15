@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// Base API configuration
+// Base API configuration - Updated for Railway deployment
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://employeemgmtsystem-production.up.railway.app/api';
 
 const api = axios.create({
