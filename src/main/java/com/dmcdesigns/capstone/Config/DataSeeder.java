@@ -60,12 +60,12 @@ public class DataSeeder implements CommandLineRunner {
         }
         
         // Display summary
-        long userCount = userRepository.count();
+        long finalUserCount = userRepository.count();
         long employeeCount = employeeRepository.count();
         long projectCount = projectRepository.count();
         
         System.out.println("📊 Database Summary:");
-        System.out.println("   - Users: " + userCount);
+        System.out.println("   - Users: " + finalUserCount);
         System.out.println("   - Employees: " + employeeCount);
         System.out.println("   - Projects: " + projectCount);
         System.out.println("🚀 Application ready for testing!");
