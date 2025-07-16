@@ -84,8 +84,12 @@ export const validateEmployeeForm = (employee, isEdit = false) => {
     errors.department = 'Department is required';
   }
 
-  if (!validateRequired(employee.role)) {
-    errors.role = 'Role is required';
+  if (!validateRequired(employee.userRole)) {
+    errors.userRole = 'Role is required';
+  }
+
+  if (!validateRequired(employee.position)) {
+    errors.position = 'Position is required';
   }
 
   if (!validateRequired(employee.phoneNumber)) {
