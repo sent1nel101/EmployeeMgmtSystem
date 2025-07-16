@@ -16,13 +16,13 @@ public class Employee extends User {
     @Column(name = "role", nullable = false)
     @NotBlank(message = "Role is required")
     @Size(min = 2, max = 50, message = "Role must be between 2 and 50 characters")
-    private String role = "Employee";
+    protected String role = "Employee";
     @Column(name = "has_access", nullable = false)
-    private boolean hasAccess = false;
+    protected boolean hasAccess = false;
     
     @Column(name = "salary", precision = 10, scale = 2)
     @DecimalMin(value = "0.0", message = "Salary must be positive")
-    private BigDecimal salary = BigDecimal.ZERO;
+    protected BigDecimal salary = BigDecimal.ZERO;
     
     @Column(name = "hire_date")
     private String hireDate;

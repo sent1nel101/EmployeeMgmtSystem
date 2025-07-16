@@ -85,16 +85,22 @@ public class DataSeeder implements CommandLineRunner {
         // Admin User - Full system access
         Admin admin = new Admin("System", "Administrator", "admin@ourcompany.com", "555-0001", 
                                "admin", passwordEncoder.encode("admin123"), "ENGINEERING");
+        admin.setSalary(new BigDecimal("120000"));
+        admin.setHireDate("2020-01-01");
         userRepository.save(admin);
 
         // Manager User - Team management and project oversight
         Manager manager = new Manager("Project", "Manager", "manager@ourcompany.com", "555-0002", 
                                      "manager", passwordEncoder.encode("manager123"), "ENGINEERING");
+        manager.setSalary(new BigDecimal("95000"));
+        manager.setHireDate("2021-03-15");
         userRepository.save(manager);
 
         // HR User - Human resources management
         Admin hrUser = new Admin("HR", "Director", "hr@ourcompany.com", "555-0003", 
                                 "hr.director", passwordEncoder.encode("hr123"), "HR");
+        hrUser.setSalary(new BigDecimal("110000"));
+        hrUser.setHireDate("2019-08-20");
         userRepository.save(hrUser);
 
         // Regular Employee User - Limited access
@@ -105,6 +111,8 @@ public class DataSeeder implements CommandLineRunner {
         // Demo users for different departments
         Manager salesManager = new Manager("Sales", "Manager", "s.manager@ourcompany.com", "555-0005",
                                           "s.manager", passwordEncoder.encode("sales123"), "SALES");
+        salesManager.setSalary(new BigDecimal("85000"));
+        salesManager.setHireDate("2022-06-01");
         userRepository.save(salesManager);
 
         Employee marketingEmp = new Employee("Marketing", "Specialist", "m.specialist@ourcompany.com", "555-0006",
@@ -156,8 +164,7 @@ public class DataSeeder implements CommandLineRunner {
                                        "t.lead", passwordEncoder.encode("techmanager123"), "ENGINEERING");
         engManager.setHireDate("2019-05-15");
         engManager.setSalary(new BigDecimal("95000"));
-        engManager.setRole("Engineering Manager");
-        employeeRepository.save(engManager);
+        userRepository.save(engManager);
 
         Employee intern = new Employee("Alex", "Chen", "a.chen@ourcompany.com", "555-1007",
                                      "a.chen", passwordEncoder.encode("intern123"), "ENGINEERING");
@@ -279,14 +286,14 @@ public class DataSeeder implements CommandLineRunner {
                         newRole = "Manager";
                     }
                 }
-                // Regular employees should have "Employee" role
+                // Regular employees should keep their job titles - don't change them!
                 else if (user instanceof Employee) {
                     Employee employee = (Employee) user;
                     originalRole = employee.getRole();
-                    // Only update if role is not already correct and not an admin/manager disguised as employee
-                    if (!"Employee".equals(employee.getRole()) && 
-                        !"Admin".equals(employee.getRole()) && 
-                        !"Manager".equals(employee.getRole())) {
+                    System.out.println("🔍 Debug: Regular Employee " + employee.getFirstName() + " has role: " + originalRole + " - keeping as is");
+                    // Don't change regular employee job titles/roles - they should keep "Senior Developer", "Marketing Coordinator", etc.
+                    // Only set generic "Employee" role if it's null or empty
+                    if (employee.getRole() == null || employee.getRole().trim().isEmpty()) {
                         employee.setRole("Employee");
                         needsUpdate = true;
                         newRole = "Employee";
