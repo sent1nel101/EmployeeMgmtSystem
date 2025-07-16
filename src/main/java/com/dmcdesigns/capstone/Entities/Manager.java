@@ -13,6 +13,8 @@ public class Manager extends Employee {
 
     public Manager(String firstName, String lastName, String email, String phoneNumber, String username, String password, String department) {
         super(firstName, lastName, email, phoneNumber, username, password, department);
+        this.role = "Manager";
+        this.hasAccess = true;
     }
 
     public String getRole() {
@@ -47,5 +49,7 @@ public class Manager extends Employee {
     // Default constructor required by JPA
     public Manager() {
         super();
+        this.role = "Manager";
+        this.hasAccess = true;
     }
 }

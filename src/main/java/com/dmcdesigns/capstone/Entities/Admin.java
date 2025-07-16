@@ -14,10 +14,14 @@ public class Admin extends Employee {
     // Default constructor required by JPA
     public Admin() {
         super();
+        this.role = "Admin";
+        this.hasAccess = true;
     }
     
     public Admin(String firstName, String lastName, String email, String phoneNumber, String username, String password, String department) {
         super(firstName, lastName, email, phoneNumber, username, password, department);
+        this.role = "Admin";
+        this.hasAccess = true;
     }
 
     public String getRole() {
