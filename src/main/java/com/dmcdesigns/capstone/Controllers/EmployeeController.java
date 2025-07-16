@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -37,18 +38,25 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<Employee> createEmployee(@Valid @RequestBody Employee employee) {
-        Employee createdEmployee = employeeService.createEmployee(employee);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdEmployee);
+    public ResponseEntity<Employee> createEmployee(@RequestBody Map<String, Object> employeeData) {
+        try {
+            System.out.println("🔍 Debug: Creating employee with data: " + employeeData);
+            Employee createdEmployee = employeeService.createEmployeeFromData(employeeData);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdEmployee);
+        } catch (Exception e) {
+            System.err.println("❌ Error creating employee: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable Integer id, 
-                                                 @Valid @RequestBody Employee employeeDetails) {
+                                                 @RequestBody Map<String, Object> employeeData) {
         try {
             System.out.println("🔍 Debug: Updating employee " + id);
-            System.out.println("🔍 Debug: Employee details: " + employeeDetails.toString());
-            Employee updatedEmployee = employeeService.updateEmployee(id, employeeDetails);
+            System.out.println("🔍 Debug: Employee data: " + employeeData);
+            Employee updatedEmployee = employeeService.updateEmployeeFromData(id, employeeData);
             return ResponseEntity.ok(updatedEmployee);
         } catch (Exception e) {
             System.err.println("❌ Error updating employee " + id + ": " + e.getMessage());

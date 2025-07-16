@@ -164,6 +164,20 @@ public class User implements Reviewable, Searchable {
         this.username = firstName.substring(0,1).trim() + "." + lastName;
     }
 
+    /**
+     * Direct setter for username (for admin operations)
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * Direct setter for email (for admin operations)
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     // ============ Reviewable Interface Implementation ============
     
     @Override

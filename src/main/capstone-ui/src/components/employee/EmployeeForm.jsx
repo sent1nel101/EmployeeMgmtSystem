@@ -28,7 +28,8 @@ const EmployeeForm = ({
     firstName: '',
     lastName: '',
     department: '',
-    role: '',
+    userRole: 'EMPLOYEE', // Access level: ADMIN/MANAGER/EMPLOYEE
+    position: '', // Job title: Senior Developer, etc.
     hireDate: '',
     salary: '',
     phoneNumber: '',
@@ -46,7 +47,8 @@ const EmployeeForm = ({
         firstName: employee.firstName || '',
         lastName: employee.lastName || '',
         department: employee.department || '',
-        role: employee.role || '',
+        userRole: employee.userType || 'EMPLOYEE', // Access level from userType
+        position: employee.position || '', // Job title from position
         hireDate: employee.hireDate ? formatDate(employee.hireDate, 'input') : '',
         salary: employee.salary?.toString() || '',
         phoneNumber: employee.phoneNumber || '',
@@ -58,7 +60,8 @@ const EmployeeForm = ({
         firstName: '',
         lastName: '',
         department: '',
-        role: '',
+        userRole: 'EMPLOYEE',
+        position: '',
         hireDate: '',
         salary: '',
         phoneNumber: '',
@@ -101,7 +104,8 @@ const EmployeeForm = ({
         firstName: formData.firstName,
         lastName: formData.lastName,
         department: formData.department,
-        role: formData.role,
+        userRole: formData.userRole, // Access level (ADMIN/MANAGER/EMPLOYEE)
+        position: formData.position, // Job title
         hireDate: formData.hireDate,
         salary: formData.salary ? parseFloat(formData.salary) : null,
         phoneNumber: formData.phoneNumber
@@ -228,15 +232,34 @@ const EmployeeForm = ({
             
             <Grid item xs={12} sm={6}>
               <TextField
+                select
                 required
                 fullWidth
-                name="role"
+                name="userRole"
+                label="Role (Access Level)"
+                value={formData.userRole}
+                onChange={handleChange}
+                error={!!errors.userRole}
+                helperText={errors.userRole || "Select the employee's access level"}
+                disabled={loading}
+              >
+                <MenuItem value="EMPLOYEE">Employee</MenuItem>
+                <MenuItem value="MANAGER">Manager</MenuItem>
+                <MenuItem value="ADMIN">Admin</MenuItem>
+              </TextField>
+            </Grid>
+            
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                fullWidth
+                name="position"
                 label="Position / Job Title"
                 placeholder="e.g., Senior Developer, Marketing Coordinator"
-                value={formData.role}
+                value={formData.position}
                 onChange={handleChange}
-                error={!!errors.role}
-                helperText={errors.role || "Enter the employee's job title or position"}
+                error={!!errors.position}
+                helperText={errors.position || "Enter the employee's job title or position"}
                 disabled={loading}
               />
             </Grid>
