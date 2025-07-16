@@ -37,6 +37,14 @@ public class Admin extends Employee {
         this.hasAccess = access;
     }
 
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setHasAccess(boolean hasAccess) {
+        this.hasAccess = hasAccess;
+    }
+
     @Override
     public String toString() {
         return "Admin{" +

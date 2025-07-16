@@ -403,4 +403,73 @@ public class ReportService {
             System.err.println("Failed to add chart to PDF: " + e.getMessage());
         }
     }
+
+    /**
+     * Get employee data for frontend reports
+     */
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> getEmployeeReportData() {
+        List<Employee> employees = employeeRepository.findAllEmployees();
+        return employees.stream()
+            .map(emp -> Map.of(
+                "id", emp.getId(),
+                "firstName", emp.getFirstName(),
+                "lastName", emp.getLastName(),
+                "email", emp.getEmail(),
+                "department", emp.getDepartment(),
+                "role", emp.getRole() != null ? emp.getRole() : "Employee",
+                "salary", emp.getSalary() != null ? emp.getSalary().toString() : "N/A",
+                "hireDate", emp.getHireDate() != null ? emp.getHireDate() : "N/A"
+            ))
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Get project data for frontend reports
+     */
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> getProjectReportData() {
+        // This is a placeholder - you would implement project repository calls here
+        return List.of(
+            Map.of("id", 1, "name", "Sample Project", "status", "ACTIVE", "department", "ENGINEERING"),
+            Map.of("id", 2, "name", "Another Project", "status", "PLANNING", "department", "MARKETING")
+        );
+    }
+
+    /**
+     * Get employee count
+     */
+    @Transactional(readOnly = true)
+    public long getEmployeeCount() {
+        return employeeRepository.count();
+    }
+
+    /**
+     * Get department count
+     */
+    @Transactional(readOnly = true)
+    public long getDepartmentCount() {
+        return employeeRepository.findAllEmployees().stream()
+            .map(Employee::getDepartment)
+            .distinct()
+            .count();
+    }
+
+    /**
+     * Get project count
+     */
+    @Transactional(readOnly = true)
+    public long getProjectCount() {
+        // This is a placeholder - you would implement project repository calls here
+        return 5;
+    }
+
+    /**
+     * Get active project count
+     */
+    @Transactional(readOnly = true)
+    public long getActiveProjectCount() {
+        // This is a placeholder - you would implement project repository calls here
+        return 3;
+    }
 }

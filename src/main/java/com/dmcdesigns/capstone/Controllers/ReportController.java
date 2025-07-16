@@ -175,16 +175,19 @@ public class ReportController {
     @Transactional(readOnly = true)
     public ResponseEntity<Object> generateEmployeesReport(@RequestBody(required = false) Object filters) {
         try {
-            // Get actual employee count from service
-            byte[] report = reportService.generateEmployeeRosterReport();
+            // Get employee data from report service
+            Object employeeData = reportService.getEmployeeReportData();
             
-            // Return a simple report data structure with actual data
+            // Return structured data that frontend expects
             return ResponseEntity.ok(Map.of(
+                "data", employeeData,
+                "summary", Map.of(
+                    "totalEmployees", reportService.getEmployeeCount(),
+                    "departments", reportService.getDepartmentCount(),
+                    "generatedAt", LocalDateTime.now().format(FILENAME_FORMATTER)
+                ),
                 "reportType", "employees",
-                "generatedAt", LocalDateTime.now().format(FILENAME_FORMATTER),
-                "totalEmployees", report.length > 0 ? "Report generated successfully" : "No data",
-                "message", "Employee report generated successfully",
-                "size", report.length
+                "message", "Employee report generated successfully"
             ));
         } catch (Exception e) {
             System.err.println("Error generating employee report: " + e.getMessage());
@@ -205,10 +208,17 @@ public class ReportController {
     @PostMapping("/projects")
     public ResponseEntity<Object> generateProjectsReport(@RequestBody(required = false) Object filters) {
         try {
+            // Get project data from report service
+            Object projectData = reportService.getProjectReportData();
+            
             return ResponseEntity.ok(Map.of(
+                "data", projectData,
+                "summary", Map.of(
+                    "totalProjects", reportService.getProjectCount(),
+                    "activeProjects", reportService.getActiveProjectCount(),
+                    "generatedAt", LocalDateTime.now().format(FILENAME_FORMATTER)
+                ),
                 "reportType", "projects",
-                "generatedAt", LocalDateTime.now().format(FILENAME_FORMATTER),
-                "totalProjects", 5,
                 "message", "Projects report generated successfully"
             ));
         } catch (Exception e) {

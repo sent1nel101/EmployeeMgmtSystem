@@ -55,6 +55,10 @@ public class Employee extends User {
         return hasAccess;
     }
 
+    public void setHasAccess(boolean hasAccess) {
+        this.hasAccess = hasAccess;
+    }
+
     public String getDepartment() {
         return department;
     }
