@@ -61,12 +61,7 @@ const Sidebar = ({ open, onClose }) => {
       path: '/reports',
       roles: ['ADMIN', 'MANAGER', 'HR'],
     },
-    {
-      text: 'Search',
-      icon: <Search />,
-      path: '/search',
-      roles: null, // Available to all authenticated users
-    },
+
   ];
 
   const settingsItems = [

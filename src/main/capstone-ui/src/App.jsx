@@ -24,7 +24,7 @@ import Dashboard from './pages/Dashboard';
 import EmployeeList from './pages/EmployeeList';
 import EmployeeDetail from './pages/EmployeeDetail';
 import DepartmentList from './pages/DepartmentList';
-import SearchPage from './pages/SearchPage';
+
 import ReportGenerator from './pages/ReportGenerator';
 import PerformanceReviews from './pages/PerformanceReviews';
 import ProjectList from './pages/ProjectList';
@@ -122,13 +122,7 @@ const AppContent = () => {
               </ProtectedRoute>
             } />
             
-            <Route path="/search" element={
-              <ProtectedRoute>
-                <Layout>
-                  <SearchPage />
-                </Layout>
-              </ProtectedRoute>
-            } />
+
             
             <Route path="/reports" element={
               <ProtectedRoute>

@@ -20,7 +20,7 @@ import {
 import { Add, Person } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import DataTable from '../components/common/DataTable';
-import SearchBar from '../components/common/SearchBar';
+
 import employeeService from '../services/employeeService';
 import { formatDate } from '../utils/formatters';
 import { DEPARTMENTS } from '../utils/constants';
