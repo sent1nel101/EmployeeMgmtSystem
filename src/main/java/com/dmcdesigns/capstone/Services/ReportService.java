@@ -454,6 +454,32 @@ public class ReportService {
     }
 
     /**
+     * Get department data for frontend reports
+     */
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> getDepartmentReportData() {
+        List<Employee> employees = employeeRepository.findAllEmployees();
+        Map<String, Integer> departmentCounts = new HashMap<>();
+        
+        // Count employees by department
+        for (Employee emp : employees) {
+            String dept = emp.getDepartment();
+            departmentCounts.put(dept, departmentCounts.getOrDefault(dept, 0) + 1);
+        }
+        
+        // Convert to list format for frontend
+        List<Map<String, Object>> departments = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : departmentCounts.entrySet()) {
+            Map<String, Object> deptMap = new HashMap<>();
+            deptMap.put("department", entry.getKey());
+            deptMap.put("employeeCount", entry.getValue());
+            departments.add(deptMap);
+        }
+        
+        return departments;
+    }
+
+    /**
      * Get employee count
      */
     @Transactional(readOnly = true)

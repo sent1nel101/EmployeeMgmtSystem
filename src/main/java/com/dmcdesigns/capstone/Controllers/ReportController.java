@@ -245,12 +245,21 @@ public class ReportController {
     @PostMapping("/departments")
     public ResponseEntity<Object> generateDepartmentsReport(@RequestBody(required = false) Object filters) {
         try {
-            return ResponseEntity.ok(Map.of(
-                "reportType", "departments",
-                "generatedAt", LocalDateTime.now().format(FILENAME_FORMATTER),
-                "totalDepartments", 5,
-                "message", "Departments report generated successfully"
-            ));
+            // Get department data from report service
+            Object departmentData = reportService.getDepartmentReportData();
+            
+            Map<String, Object> summary = new HashMap<>();
+            summary.put("totalDepartments", reportService.getDepartmentCount());
+            summary.put("totalEmployees", reportService.getEmployeeCount());
+            summary.put("generatedAt", LocalDateTime.now().format(FILENAME_FORMATTER));
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("data", departmentData);
+            response.put("summary", summary);
+            response.put("reportType", "departments");
+            response.put("message", "Departments report generated successfully");
+            
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             System.err.println("Error generating departments report: " + e.getMessage());
             e.printStackTrace();

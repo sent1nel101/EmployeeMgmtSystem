@@ -43,30 +43,15 @@ const ReportGenerator = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [reportData, setReportData] = useState(null);
-  const [filters, setFilters] = useState({
-    startDate: '',
-    endDate: '',
-    department: '',
-    status: '',
-    employee: ''
-  });
 
   // Check if user can generate reports
   const canGenerateReports = hasRole('ADMIN') || hasRole('MANAGER');
 
   const reportTypes = [
     { value: 'employees', label: 'Employee Report' },
-    { value: 'projects', label: 'Project Report' },
     { value: 'departments', label: 'Department Report' },
-    { value: 'performance', label: 'Performance Report' }
+    { value: 'projects', label: 'Project Report' }
   ];
-
-  const handleFilterChange = (field, value) => {
-    setFilters(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
 
   const handleGenerateReport = async () => {
     if (!selectedReportType) {
@@ -81,16 +66,13 @@ const ReportGenerator = () => {
       let data;
       switch (selectedReportType) {
         case 'employees':
-          data = await reportService.generateEmployeeReport(filters);
-          break;
-        case 'projects':
-          data = await reportService.generateProjectReport(filters);
+          data = await reportService.generateEmployeeReport({});
           break;
         case 'departments':
-          data = await reportService.generateDepartmentReport(filters);
+          data = await reportService.generateDepartmentReport({});
           break;
-        case 'performance':
-          data = await reportService.generatePerformanceReport(filters);
+        case 'projects':
+          data = await reportService.generateProjectReport({});
           break;
         default:
           throw new Error('Invalid report type');
@@ -115,15 +97,15 @@ const ReportGenerator = () => {
       
       switch (format) {
         case 'pdf':
-          blob = await reportService.exportToPDF(selectedReportType, filters);
+          blob = await reportService.exportToPDF(selectedReportType, {});
           filename = `${selectedReportType}_report.pdf`;
           break;
         case 'excel':
-          blob = await reportService.exportToExcel(selectedReportType, filters);
+          blob = await reportService.exportToExcel(selectedReportType, {});
           filename = `${selectedReportType}_report.xlsx`;
           break;
         case 'csv':
-          blob = await reportService.exportToCSV(selectedReportType, filters);
+          blob = await reportService.exportToCSV(selectedReportType, {});
           filename = `${selectedReportType}_report.csv`;
           break;
         default:
@@ -147,16 +129,7 @@ const ReportGenerator = () => {
     }
   };
 
-  const handleClearFilters = () => {
-    setFilters({
-      startDate: '',
-      endDate: '',
-      department: '',
-      status: '',
-      employee: ''
-    });
-    setReportData(null);
-  };
+
 
   const renderReportTable = () => {
     if (!reportData || !reportData.data || reportData.data.length === 0) {
@@ -242,7 +215,7 @@ const ReportGenerator = () => {
         </Typography>
         
         <Grid container spacing={3}>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={6}>
             <FormControl fullWidth>
               <InputLabel>Report Type</InputLabel>
               <Select
@@ -258,61 +231,9 @@ const ReportGenerator = () => {
               </Select>
             </FormControl>
           </Grid>
-
-          <Grid item xs={12} md={4}>
-            <TextField
-              fullWidth
-              label="Start Date"
-              type="date"
-              value={filters.startDate}
-              onChange={(e) => handleFilterChange('startDate', e.target.value)}
-              InputLabelProps={{ shrink: true }}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={4}>
-            <TextField
-              fullWidth
-              label="End Date"
-              type="date"
-              value={filters.endDate}
-              onChange={(e) => handleFilterChange('endDate', e.target.value)}
-              InputLabelProps={{ shrink: true }}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={4}>
-            <TextField
-              fullWidth
-              label="Department"
-              value={filters.department}
-              onChange={(e) => handleFilterChange('department', e.target.value)}
-              placeholder="Filter by department..."
-            />
-          </Grid>
-
-          <Grid item xs={12} md={4}>
-            <TextField
-              fullWidth
-              label="Status"
-              value={filters.status}
-              onChange={(e) => handleFilterChange('status', e.target.value)}
-              placeholder="Filter by status..."
-            />
-          </Grid>
-
-          <Grid item xs={12} md={4}>
-            <TextField
-              fullWidth
-              label="Employee"
-              value={filters.employee}
-              onChange={(e) => handleFilterChange('employee', e.target.value)}
-              placeholder="Filter by employee..."
-            />
-          </Grid>
         </Grid>
 
-        <Box sx={{ mt: 3, display: 'flex', gap: 2 }}>
+        <Box sx={{ mt: 3 }}>
           <Button
             variant="contained"
             onClick={handleGenerateReport}
@@ -320,13 +241,6 @@ const ReportGenerator = () => {
             startIcon={loading ? <CircularProgress size={20} /> : <Assessment />}
           >
             Generate Report
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={handleClearFilters}
-            startIcon={<Clear />}
-          >
-            Clear Filters
           </Button>
         </Box>
       </Paper>
