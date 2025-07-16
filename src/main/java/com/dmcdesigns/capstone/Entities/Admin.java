@@ -20,6 +20,11 @@ public class Admin extends Employee {
     }
 
     @Override
+    public String getPosition() {
+        return "Administrator";
+    }
+
+    @Override
     public String toString() {
         return "Admin{" +
                 "role='" + role + '\'' +

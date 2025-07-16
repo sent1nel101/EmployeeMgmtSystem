@@ -102,6 +102,14 @@ public class Employee extends User {
     public void setHireDate(String hireDate) {
         this.hireDate = hireDate;
     }
+    
+    @Override
+    public String getPosition() {
+        // For regular employees, return their job title (stored in role field)
+        // For Admin/Manager subclasses, this will be overridden
+        return this.role;
+    }
+    
     @Override
     public String toString() {
         return "Employee{" +

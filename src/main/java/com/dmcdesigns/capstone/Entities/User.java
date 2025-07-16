@@ -215,6 +215,14 @@ public class User implements Reviewable, Searchable {
         }
     }
 
+    /**
+     * Get the position/job title for display purposes
+     * This is implemented in subclasses to return appropriate position
+     */
+    public String getPosition() {
+        return "Employee";  // Default implementation
+    }
+
     // ============ Searchable Interface Implementation ============
     
     @Override

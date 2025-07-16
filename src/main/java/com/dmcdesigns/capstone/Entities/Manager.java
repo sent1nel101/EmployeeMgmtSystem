@@ -19,6 +19,11 @@ public class Manager extends Employee {
         this.hasAccess = true;
     }
 
+    @Override
+    public String getPosition() {
+        return "Manager";
+    }
+
      @Override
     public String toString() {
         return "Manager{" +
