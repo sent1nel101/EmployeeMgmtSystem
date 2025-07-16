@@ -242,15 +242,22 @@ public class DataSeeder implements CommandLineRunner {
             int adminUpdates = 0;
             int managerUpdates = 0;
             
+            System.out.println("🔍 Debug: Found " + allUsers.size() + " users total");
+            
             for (User user : allUsers) {
                 boolean needsUpdate = false;
                 String originalRole = "Unknown";
                 String newRole = "Unknown";
+                String userType = user.getClass().getSimpleName();
+                
+                System.out.println("🔍 Debug: User " + user.getFirstName() + " " + user.getLastName() + 
+                                 " - Type: " + userType + " - instanceof Employee: " + (user instanceof Employee));
                 
                 // Check if user is an Admin instance
                 if (user instanceof Admin) {
                     Admin admin = (Admin) user;
                     originalRole = admin.getRole();
+                    System.out.println("🔍 Debug: Found Admin user: " + admin.getFirstName() + " with role: " + originalRole);
                     if (!"Admin".equals(admin.getRole())) {
                         admin.setRole("Admin");
                         admin.setHasAccess(true);
@@ -263,6 +270,7 @@ public class DataSeeder implements CommandLineRunner {
                 else if (user instanceof Manager) {
                     Manager manager = (Manager) user;
                     originalRole = manager.getRole();
+                    System.out.println("🔍 Debug: Found Manager user: " + manager.getFirstName() + " with role: " + originalRole);
                     if (!"Manager".equals(manager.getRole())) {
                         manager.setRole("Manager");
                         manager.setHasAccess(true);
@@ -275,7 +283,10 @@ public class DataSeeder implements CommandLineRunner {
                 else if (user instanceof Employee) {
                     Employee employee = (Employee) user;
                     originalRole = employee.getRole();
-                    if (!"Employee".equals(employee.getRole())) {
+                    // Only update if role is not already correct and not an admin/manager disguised as employee
+                    if (!"Employee".equals(employee.getRole()) && 
+                        !"Admin".equals(employee.getRole()) && 
+                        !"Manager".equals(employee.getRole())) {
                         employee.setRole("Employee");
                         needsUpdate = true;
                         newRole = "Employee";
@@ -286,6 +297,21 @@ public class DataSeeder implements CommandLineRunner {
                     userRepository.save(user);
                     System.out.println("   - Updated " + user.getFirstName() + " " + user.getLastName() + 
                                      " from '" + originalRole + "' to '" + newRole + "'");
+                }
+            }
+            
+            // Try the SQL approach as backup for admin/manager roles
+            if (adminUpdates == 0 || managerUpdates == 0) {
+                System.out.println("🔧 Trying SQL-based role assignment as backup...");
+                try {
+                    int sqlAdminUpdates = userRepository.updateRoleByDiscriminator("ADMIN", "Admin");
+                    int sqlManagerUpdates = userRepository.updateRoleByDiscriminator("MANAGER", "Manager");
+                    adminUpdates += sqlAdminUpdates;
+                    managerUpdates += sqlManagerUpdates;
+                    System.out.println("   - SQL updated " + sqlAdminUpdates + " Admin users");
+                    System.out.println("   - SQL updated " + sqlManagerUpdates + " Manager users");
+                } catch (Exception sqlE) {
+                    System.err.println("❌ SQL approach also failed: " + sqlE.getMessage());
                 }
             }
             
