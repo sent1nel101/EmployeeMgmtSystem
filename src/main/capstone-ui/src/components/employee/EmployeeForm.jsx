@@ -98,20 +98,25 @@ const EmployeeForm = ({
 
     try {
       const submitData = {
-        ...formData,
-        salary: formData.salary ? parseFloat(formData.salary) : null
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        department: formData.department,
+        role: formData.role,
+        hireDate: formData.hireDate,
+        salary: formData.salary ? parseFloat(formData.salary) : null,
+        phoneNumber: formData.phoneNumber
       };
+      
+      // Add password only if provided
+      if (formData.password) {
+        submitData.password = formData.password;
+      }
 
       // Auto-generate username and email for new employees
       if (!isEdit) {
         const username = formData.firstName.substring(0, 1).toLowerCase() + '.' + formData.lastName.toLowerCase();
         submitData.username = username;
         submitData.email = username + '@ourcompany.com';
-      }
-
-      // For edit mode, only include password if it's provided
-      if (isEdit && !formData.password) {
-        delete submitData.password;
       }
 
       await onSubmit(submitData);
@@ -226,11 +231,12 @@ const EmployeeForm = ({
                 required
                 fullWidth
                 name="role"
-                label="Role"
+                label="Position / Job Title"
+                placeholder="e.g., Senior Developer, Marketing Coordinator"
                 value={formData.role}
                 onChange={handleChange}
                 error={!!errors.role}
-                helperText={errors.role}
+                helperText={errors.role || "Enter the employee's job title or position"}
                 disabled={loading}
               />
             </Grid>
