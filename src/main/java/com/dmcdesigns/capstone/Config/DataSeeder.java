@@ -237,57 +237,22 @@ public class DataSeeder implements CommandLineRunner {
     private void fixExistingRoles() {
         System.out.println("🔧 Fixing existing role assignments...");
         try {
-            // Find all users and fix their roles based on their actual type
-            List<User> allUsers = userRepository.findAll();
-            boolean hasUpdates = false;
+            // Use SQL to directly update roles based on discriminator values
+            // This is more reliable than trying to work with inheritance
             
-            for (User user : allUsers) {
-                String expectedRole = null;
-                boolean expectedAccess = false;
-                
-                if (user instanceof Admin) {
-                    expectedRole = "Admin";
-                    expectedAccess = true;
-                } else if (user instanceof Manager) {
-                    expectedRole = "Manager";
-                    expectedAccess = true;
-                } else if (user instanceof Employee) {
-                    expectedRole = "Employee";
-                    expectedAccess = ((Employee) user).hasAccess(); // Keep existing access
-                }
-                
-                if (expectedRole != null && user instanceof Employee) {
-                    Employee emp = (Employee) user;
-                    boolean needsUpdate = false;
-                    
-                    if (!expectedRole.equals(emp.getRole())) {
-                        emp.setRole(expectedRole);
-                        needsUpdate = true;
-                    }
-                    
-                    if (expectedAccess != emp.hasAccess()) {
-                        if (expectedAccess) {
-                            emp.grantAccess();
-                        } else {
-                            emp.revokeAccess();
-                        }
-                        needsUpdate = true;
-                    }
-                    
-                    if (needsUpdate) {
-                        userRepository.save(emp);
-                        hasUpdates = true;
-                        System.out.println("   - Updated " + emp.getFirstName() + " " + emp.getLastName() + 
-                                         " to role: " + expectedRole + ", access: " + expectedAccess);
-                    }
-                }
-            }
+            // Update Admin users
+            int adminUpdates = userRepository.updateRoleByDiscriminator("ADMIN", "Admin");
+            System.out.println("   - Updated " + adminUpdates + " Admin users");
             
-            if (hasUpdates) {
-                System.out.println("✅ Role assignments updated successfully!");
-            } else {
-                System.out.println("ℹ️ All role assignments are already correct.");
-            }
+            // Update Manager users  
+            int managerUpdates = userRepository.updateRoleByDiscriminator("MANAGER", "Manager");
+            System.out.println("   - Updated " + managerUpdates + " Manager users");
+            
+            // Update access for Admin and Manager users
+            int accessUpdates = userRepository.updateAccessByDiscriminator();
+            System.out.println("   - Updated access for " + accessUpdates + " privileged users");
+            
+            System.out.println("✅ Role assignments updated successfully!");
             
         } catch (Exception e) {
             System.err.println("❌ Error fixing role assignments: " + e.getMessage());

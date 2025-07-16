@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dmcdesigns.capstone.Entities.User;
 
@@ -72,5 +74,16 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT u FROM User u WHERE LOWER(u.email) LIKE LOWER(CONCAT('%', :email, '%'))")
     Page<User> searchUsersByEmail(@Param("email") String email, Pageable pageable);
+
+    // Custom update methods for role fixing - using native SQL for direct database access
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE users SET role = ?2 WHERE user_type = ?1", nativeQuery = true)
+    int updateRoleByDiscriminator(String discriminator, String role);
+    
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE users SET has_access = true WHERE user_type IN ('ADMIN', 'MANAGER')", nativeQuery = true)
+    int updateAccessByDiscriminator();
 
 }
