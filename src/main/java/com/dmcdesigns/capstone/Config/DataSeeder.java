@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * DataSeeder class responsible for populating the database with initial test data.
@@ -35,6 +36,11 @@ public class DataSeeder implements CommandLineRunner {
         System.out.println("🔍 DataSeeder starting - checking database state...");
         long userCount = userRepository.count();
         System.out.println("📊 Current user count: " + userCount);
+        
+        // Fix existing role assignments regardless of whether we're seeding
+        if (userCount > 0) {
+            fixExistingRoles();
+        }
         
         // Only seed if database is empty to avoid duplicates
         if (userCount == 0) {
@@ -222,5 +228,70 @@ public class DataSeeder implements CommandLineRunner {
         project5.setPriority("MEDIUM");
         project5.setProgressPercentage(75);
         projectRepository.save(project5);
+    }
+    
+    /**
+     * Fix existing role assignments for Admin and Manager entities
+     * This ensures that users with ADMIN or MANAGER discriminator values have correct roles
+     */
+    private void fixExistingRoles() {
+        System.out.println("🔧 Fixing existing role assignments...");
+        try {
+            // Find all users and fix their roles based on their actual type
+            List<User> allUsers = userRepository.findAll();
+            boolean hasUpdates = false;
+            
+            for (User user : allUsers) {
+                String expectedRole = null;
+                boolean expectedAccess = false;
+                
+                if (user instanceof Admin) {
+                    expectedRole = "Admin";
+                    expectedAccess = true;
+                } else if (user instanceof Manager) {
+                    expectedRole = "Manager";
+                    expectedAccess = true;
+                } else if (user instanceof Employee) {
+                    expectedRole = "Employee";
+                    expectedAccess = ((Employee) user).hasAccess(); // Keep existing access
+                }
+                
+                if (expectedRole != null && user instanceof Employee) {
+                    Employee emp = (Employee) user;
+                    boolean needsUpdate = false;
+                    
+                    if (!expectedRole.equals(emp.getRole())) {
+                        emp.setRole(expectedRole);
+                        needsUpdate = true;
+                    }
+                    
+                    if (expectedAccess != emp.hasAccess()) {
+                        if (expectedAccess) {
+                            emp.grantAccess();
+                        } else {
+                            emp.revokeAccess();
+                        }
+                        needsUpdate = true;
+                    }
+                    
+                    if (needsUpdate) {
+                        userRepository.save(emp);
+                        hasUpdates = true;
+                        System.out.println("   - Updated " + emp.getFirstName() + " " + emp.getLastName() + 
+                                         " to role: " + expectedRole + ", access: " + expectedAccess);
+                    }
+                }
+            }
+            
+            if (hasUpdates) {
+                System.out.println("✅ Role assignments updated successfully!");
+            } else {
+                System.out.println("ℹ️ All role assignments are already correct.");
+            }
+            
+        } catch (Exception e) {
+            System.err.println("❌ Error fixing role assignments: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
