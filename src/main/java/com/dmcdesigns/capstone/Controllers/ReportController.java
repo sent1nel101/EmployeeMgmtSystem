@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/reports")
@@ -179,16 +180,18 @@ public class ReportController {
             Object employeeData = reportService.getEmployeeReportData();
             
             // Return structured data that frontend expects
-            return ResponseEntity.ok(Map.of(
-                "data", employeeData,
-                "summary", Map.of(
-                    "totalEmployees", reportService.getEmployeeCount(),
-                    "departments", reportService.getDepartmentCount(),
-                    "generatedAt", LocalDateTime.now().format(FILENAME_FORMATTER)
-                ),
-                "reportType", "employees",
-                "message", "Employee report generated successfully"
-            ));
+            Map<String, Object> summary = new HashMap<>();
+            summary.put("totalEmployees", reportService.getEmployeeCount());
+            summary.put("departments", reportService.getDepartmentCount());
+            summary.put("generatedAt", LocalDateTime.now().format(FILENAME_FORMATTER));
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("data", employeeData);
+            response.put("summary", summary);
+            response.put("reportType", "employees");
+            response.put("message", "Employee report generated successfully");
+            
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             System.err.println("Error generating employee report: " + e.getMessage());
             e.printStackTrace();
@@ -211,16 +214,18 @@ public class ReportController {
             // Get project data from report service
             Object projectData = reportService.getProjectReportData();
             
-            return ResponseEntity.ok(Map.of(
-                "data", projectData,
-                "summary", Map.of(
-                    "totalProjects", reportService.getProjectCount(),
-                    "activeProjects", reportService.getActiveProjectCount(),
-                    "generatedAt", LocalDateTime.now().format(FILENAME_FORMATTER)
-                ),
-                "reportType", "projects",
-                "message", "Projects report generated successfully"
-            ));
+            Map<String, Object> summary = new HashMap<>();
+            summary.put("totalProjects", reportService.getProjectCount());
+            summary.put("activeProjects", reportService.getActiveProjectCount());
+            summary.put("generatedAt", LocalDateTime.now().format(FILENAME_FORMATTER));
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("data", projectData);
+            response.put("summary", summary);
+            response.put("reportType", "projects");
+            response.put("message", "Projects report generated successfully");
+            
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             System.err.println("Error generating projects report: " + e.getMessage());
             e.printStackTrace();

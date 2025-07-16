@@ -31,6 +31,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 @Service
@@ -411,16 +413,18 @@ public class ReportService {
     public List<Map<String, Object>> getEmployeeReportData() {
         List<Employee> employees = employeeRepository.findAllEmployees();
         return employees.stream()
-            .map(emp -> Map.of(
-                "id", emp.getId(),
-                "firstName", emp.getFirstName(),
-                "lastName", emp.getLastName(),
-                "email", emp.getEmail(),
-                "department", emp.getDepartment(),
-                "role", emp.getRole() != null ? emp.getRole() : "Employee",
-                "salary", emp.getSalary() != null ? emp.getSalary().toString() : "N/A",
-                "hireDate", emp.getHireDate() != null ? emp.getHireDate() : "N/A"
-            ))
+            .map(emp -> {
+                Map<String, Object> empMap = new HashMap<>();
+                empMap.put("id", emp.getId());
+                empMap.put("firstName", emp.getFirstName());
+                empMap.put("lastName", emp.getLastName());
+                empMap.put("email", emp.getEmail());
+                empMap.put("department", emp.getDepartment());
+                empMap.put("role", emp.getRole() != null ? emp.getRole() : "Employee");
+                empMap.put("salary", emp.getSalary() != null ? emp.getSalary().toString() : "N/A");
+                empMap.put("hireDate", emp.getHireDate() != null ? emp.getHireDate() : "N/A");
+                return empMap;
+            })
             .collect(Collectors.toList());
     }
 
@@ -430,10 +434,23 @@ public class ReportService {
     @Transactional(readOnly = true)
     public List<Map<String, Object>> getProjectReportData() {
         // This is a placeholder - you would implement project repository calls here
-        return List.of(
-            Map.of("id", 1, "name", "Sample Project", "status", "ACTIVE", "department", "ENGINEERING"),
-            Map.of("id", 2, "name", "Another Project", "status", "PLANNING", "department", "MARKETING")
-        );
+        List<Map<String, Object>> projects = new ArrayList<>();
+        
+        Map<String, Object> project1 = new HashMap<>();
+        project1.put("id", 1);
+        project1.put("name", "Sample Project");
+        project1.put("status", "ACTIVE");
+        project1.put("department", "ENGINEERING");
+        projects.add(project1);
+        
+        Map<String, Object> project2 = new HashMap<>();
+        project2.put("id", 2);
+        project2.put("name", "Another Project");
+        project2.put("status", "PLANNING");
+        project2.put("department", "MARKETING");
+        projects.add(project2);
+        
+        return projects;
     }
 
     /**

@@ -243,39 +243,49 @@ public class DataSeeder implements CommandLineRunner {
             int managerUpdates = 0;
             
             for (User user : allUsers) {
-                String originalRole = user.getRole();
                 boolean needsUpdate = false;
+                String originalRole = "Unknown";
+                String newRole = "Unknown";
                 
                 // Check if user is an Admin instance
                 if (user instanceof Admin) {
-                    if (!"Admin".equals(user.getRole())) {
-                        user.setRole("Admin");
-                        user.setHasAccess(true);
+                    Admin admin = (Admin) user;
+                    originalRole = admin.getRole();
+                    if (!"Admin".equals(admin.getRole())) {
+                        admin.setRole("Admin");
+                        admin.setHasAccess(true);
                         needsUpdate = true;
                         adminUpdates++;
+                        newRole = "Admin";
                     }
                 }
                 // Check if user is a Manager instance
                 else if (user instanceof Manager) {
-                    if (!"Manager".equals(user.getRole())) {
-                        user.setRole("Manager");
-                        user.setHasAccess(true);
+                    Manager manager = (Manager) user;
+                    originalRole = manager.getRole();
+                    if (!"Manager".equals(manager.getRole())) {
+                        manager.setRole("Manager");
+                        manager.setHasAccess(true);
                         needsUpdate = true;
                         managerUpdates++;
+                        newRole = "Manager";
                     }
                 }
                 // Regular employees should have "Employee" role
-                else if (user instanceof Employee && !"Admin".equals(user.getRole()) && !"Manager".equals(user.getRole())) {
-                    if (!"Employee".equals(user.getRole())) {
-                        user.setRole("Employee");
+                else if (user instanceof Employee) {
+                    Employee employee = (Employee) user;
+                    originalRole = employee.getRole();
+                    if (!"Employee".equals(employee.getRole())) {
+                        employee.setRole("Employee");
                         needsUpdate = true;
+                        newRole = "Employee";
                     }
                 }
                 
                 if (needsUpdate) {
                     userRepository.save(user);
                     System.out.println("   - Updated " + user.getFirstName() + " " + user.getLastName() + 
-                                     " from '" + originalRole + "' to '" + user.getRole() + "'");
+                                     " from '" + originalRole + "' to '" + newRole + "'");
                 }
             }
             
