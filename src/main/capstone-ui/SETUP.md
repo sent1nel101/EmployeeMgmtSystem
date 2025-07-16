@@ -49,4 +49,4 @@ Since the backend authentication isn't fully connected yet, you can:
 npm run build
 ```
 
-The built files will be in the `dist/` directory.
+The built files will be in the `../resources/static/` directory.

@@ -25,8 +25,8 @@ RUN apk add --no-cache curl
 # Copy custom nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Copy built React app to nginx html directory (Vite builds to dist, not build)
-COPY --from=build /app/dist /usr/share/nginx/html
+# Copy built React app to nginx html directory (Vite builds to ../resources/static)
+COPY --from=build /app/../resources/static /usr/share/nginx/html
 
 # Create nginx user and set permissions
 RUN chown -R nginx:nginx /usr/share/nginx/html && \
