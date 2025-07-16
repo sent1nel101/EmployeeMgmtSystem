@@ -198,6 +198,23 @@ public class User implements Reviewable, Searchable {
             .orElse(0.0);
     }
 
+    /**
+     * Get the user type from the JPA discriminator value
+     * This will return ADMIN, MANAGER, or EMPLOYEE based on the entity type
+     */
+    public String getUserType() {
+        String className = this.getClass().getSimpleName();
+        switch (className) {
+            case "Admin":
+                return "ADMIN";
+            case "Manager":
+                return "MANAGER";
+            case "Employee":
+            default:
+                return "EMPLOYEE";
+        }
+    }
+
     // ============ Searchable Interface Implementation ============
     
     @Override
