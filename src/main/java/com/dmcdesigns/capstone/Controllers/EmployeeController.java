@@ -46,10 +46,14 @@ public class EmployeeController {
     public ResponseEntity<Employee> updateEmployee(@PathVariable Integer id, 
                                                  @Valid @RequestBody Employee employeeDetails) {
         try {
+            System.out.println("🔍 Debug: Updating employee " + id);
+            System.out.println("🔍 Debug: Employee details: " + employeeDetails.toString());
             Employee updatedEmployee = employeeService.updateEmployee(id, employeeDetails);
             return ResponseEntity.ok(updatedEmployee);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            System.err.println("❌ Error updating employee " + id + ": " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
         }
     }
 

@@ -3,6 +3,7 @@ package com.dmcdesigns.capstone.Entities;
 import com.dmcdesigns.capstone.Interfaces.Reviewable;
 import com.dmcdesigns.capstone.Interfaces.Searchable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.util.List;
@@ -202,6 +203,7 @@ public class User implements Reviewable, Searchable {
      * Get the user type from the JPA discriminator value
      * This will return ADMIN, MANAGER, or EMPLOYEE based on the entity type
      */
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public String getUserType() {
         String className = this.getClass().getSimpleName();
         switch (className) {
@@ -219,6 +221,7 @@ public class User implements Reviewable, Searchable {
      * Get the position/job title for display purposes
      * This is implemented in subclasses to return appropriate position
      */
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public String getPosition() {
         return "Employee";  // Default implementation
     }
