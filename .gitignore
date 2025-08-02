@@ -36,3 +36,6 @@ build/
 node_modules
 src/main/capstone-ui/package-lock.json
 src/main/capstone-ui/dist/
+ACTIONS.md
+SUMMARY.md
+TODO.md

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Generation Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .form-group { margin: 15px 0; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"] { padding: 8px; width: 300px; border: 1px solid #ccc; }
+        .email-display { 
+            margin: 20px 0; 
+            padding: 15px; 
+            background: #f5f5f5; 
+            border-radius: 5px;
+            border: 2px solid #ddd;
+        }
+        .error { color: red; border-color: red; background: #ffe6e6; }
+        .success { color: green; border-color: green; background: #e6ffe6; }
+    </style>
+</head>
+<body>
+    <h1>Email Generation Test</h1>
+    <p>Test the new email generation logic with names containing spaces and special characters.</p>
+    
+    <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" placeholder="Enter first name" value="BJ John">
+    </div>
+    
+    <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" placeholder="Enter last name" value="De La Cruz">
+    </div>
+    
+    <div class="email-display" id="emailDisplay">
+        <strong>Generated Email:</strong> <span id="emailResult"></span><br>
+        <small id="emailStatus"></small>
+    </div>
+    
+    <div>
+        <h3>Test Cases:</h3>
+        <button onclick="testCase('BJ John', 'De La Cruz')">BJ John + De La Cruz</button>
+        <button onclick="testCase('Mary', 'O\'Connor')">Mary + O'Connor</button>
+        <button onclick="testCase('Jean-Pierre', 'Van Der Berg')">Jean-Pierre + Van Der Berg</button>
+        <button onclick="testCase('李', '王')">李 + 王 (Chinese)</button>
+        <button onclick="testCase('!@#', '$%^')">!@# + $%^ (Special chars)</button>
+    </div>
+    
+    <script>
+        // Utility function to clean names for email generation
+        const cleanNameForEmail = (name) => {
+            return name
+                .trim()
+                .toLowerCase()
+                .replace(/[^a-z0-9]/g, '') // Remove all non-alphanumeric characters
+                .substring(0, 20); // Limit length for practical email addresses
+        };
+
+        // Utility function to generate email safely
+        const generateEmail = (firstName, lastName) => {
+            const cleanFirst = cleanNameForEmail(firstName);
+            const cleanLast = cleanNameForEmail(lastName);
+            
+            // Check if we have valid characters left after cleaning
+            if (!cleanFirst || !cleanLast) {
+                return null; // Invalid name combination
+            }
+            
+            const username = cleanFirst.substring(0, 1) + '.' + cleanLast;
+            return username + '@ourcompany.com';
+        };
+        
+        function updateEmailDisplay() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const emailDisplay = document.getElementById('emailDisplay');
+            const emailResult = document.getElementById('emailResult');
+            const emailStatus = document.getElementById('emailStatus');
+            
+            if (firstName && lastName) {
+                const email = generateEmail(firstName, lastName);
+                
+                if (email) {
+                    emailResult.textContent = email;
+                    emailStatus.textContent = 'Valid email generated successfully!';
+                    emailDisplay.className = 'email-display success';
+                } else {
+                    emailResult.textContent = 'Unable to generate email';
+                    emailStatus.textContent = 'Names must contain letters or numbers (spaces and special characters will be removed).';
+                    emailDisplay.className = 'email-display error';
+                }
+            } else {
+                emailResult.textContent = 'Enter both first and last name';
+                emailStatus.textContent = 'Both names are required to generate email.';
+                emailDisplay.className = 'email-display';
+            }
+        }
+        
+        function testCase(first, last) {
+            document.getElementById('firstName').value = first;
+            document.getElementById('lastName').value = last;
+            updateEmailDisplay();
+        }
+        
+        // Add event listeners
+        document.getElementById('firstName').addEventListener('input', updateEmailDisplay);
+        document.getElementById('lastName').addEventListener('input', updateEmailDisplay);
+        
+        // Initial update
+        updateEmailDisplay();
+    </script>
+</body>
+</html>

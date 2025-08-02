@@ -32,6 +32,30 @@ const Register = () => {
   const [apiError, setApiError] = useState('');
   const [generatedEmail, setGeneratedEmail] = useState('');
 
+  // Utility function to clean names for email generation
+  const cleanNameForEmail = (name) => {
+    // Remove spaces, special characters, and normalize
+    return name
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '') // Remove all non-alphanumeric characters
+      .substring(0, 20); // Limit length for practical email addresses
+  };
+
+  // Utility function to generate email safely
+  const generateEmail = (firstName, lastName) => {
+    const cleanFirst = cleanNameForEmail(firstName);
+    const cleanLast = cleanNameForEmail(lastName);
+    
+    // Check if we have valid characters left after cleaning
+    if (!cleanFirst || !cleanLast) {
+      return null; // Invalid name combination
+    }
+    
+    const username = cleanFirst.substring(0, 1) + '.' + cleanLast;
+    return username + '@ourcompany.com';
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     const updatedFormData = {
@@ -43,8 +67,8 @@ const Register = () => {
     // Generate email when first or last name changes
     if (name === 'firstName' || name === 'lastName') {
       if (updatedFormData.firstName && updatedFormData.lastName) {
-        const username = updatedFormData.firstName.substring(0, 1).toLowerCase() + '.' + updatedFormData.lastName.toLowerCase();
-        setGeneratedEmail(username + '@ourcompany.com');
+        const email = generateEmail(updatedFormData.firstName, updatedFormData.lastName);
+        setGeneratedEmail(email || '');
       } else {
         setGeneratedEmail('');
       }
@@ -64,10 +88,20 @@ const Register = () => {
     
     if (!validateRequired(formData.firstName)) {
       newErrors.firstName = 'First name is required';
+    } else if (!cleanNameForEmail(formData.firstName)) {
+      newErrors.firstName = 'First name must contain at least one letter or number';
     }
     
     if (!validateRequired(formData.lastName)) {
       newErrors.lastName = 'Last name is required';
+    } else if (!cleanNameForEmail(formData.lastName)) {
+      newErrors.lastName = 'Last name must contain at least one letter or number';
+    }
+    
+    // Check if email generation is possible
+    if (formData.firstName && formData.lastName && !generateEmail(formData.firstName, formData.lastName)) {
+      newErrors.firstName = newErrors.firstName || 'Names must contain letters or numbers for email generation';
+      newErrors.lastName = newErrors.lastName || 'Names must contain letters or numbers for email generation';
     }
     
     if (!validateRequired(formData.password)) {
@@ -111,10 +145,16 @@ const Register = () => {
     try {
       const { confirmPassword, ...registerData } = formData;
       
-      // Auto-generate username and email
-      const username = formData.firstName.substring(0, 1).toLowerCase() + '.' + formData.lastName.toLowerCase();
+      // Auto-generate username and email using cleaned names
+      const email = generateEmail(formData.firstName, formData.lastName);
+      if (!email) {
+        setApiError('Unable to generate valid email from provided names. Please use names with letters or numbers.');
+        return;
+      }
+      
+      const username = email.split('@')[0]; // Extract username part from email
       registerData.username = username;
-      registerData.email = username + '@ourcompany.com';
+      registerData.email = email;
       
       await authService.register(registerData);
       
@@ -262,17 +302,22 @@ const Register = () => {
                 />
               </Grid>
               
-              {generatedEmail && (
+              {(formData.firstName || formData.lastName) && (
                 <Grid item xs={12}>
                   <TextField
                     fullWidth
                     id="generatedEmail"
                     label="Your Generated Email Address"
-                    value={generatedEmail}
+                    value={generatedEmail || 'Unable to generate email - please check your names'}
                     InputProps={{
                       readOnly: true,
                     }}
-                    helperText="This will be your login email address. Please save it for future logins."
+                    error={!generatedEmail && (formData.firstName && formData.lastName)}
+                    helperText={
+                      generatedEmail 
+                        ? "This will be your login email address. Please save it for future logins."
+                        : "Email cannot be generated. Names must contain letters or numbers (spaces and special characters will be removed)."
+                    }
                     sx={{ 
                       '& .MuiInputBase-root': {
                         backgroundColor: 'action.hover',
@@ -281,14 +326,14 @@ const Register = () => {
                         }
                       },
                       '& .MuiInputBase-input': {
-                        color: 'text.secondary',
+                        color: generatedEmail ? 'text.secondary' : 'error.main',
                         fontStyle: 'italic'
                       },
                       '& .MuiInputLabel-root': {
-                        color: 'text.secondary'
+                        color: generatedEmail ? 'text.secondary' : 'error.main'
                       },
                       '& .MuiFormHelperText-root': {
-                        color: 'text.secondary'
+                        color: generatedEmail ? 'text.secondary' : 'error.main'
                       }
                     }}
                   />
