@@ -189,9 +189,9 @@ const Login = () => {
               </TableHead>
               <TableBody>
                 {[
-                  { role: 'Employee', color: 'info',      email: 'john.doe@company.com',    password: 'password123' },
-                  { role: 'Manager',  color: 'warning',   email: 'jane.smith@company.com',  password: 'password123' },
-                  { role: 'Admin',    color: 'secondary', email: 'admin@company.com',       password: 'admin123' },
+                  { role: 'Employee', color: 'info',      email: 'john.doe@ourcompany.com',    password: 'password123' },
+                  { role: 'Manager',  color: 'warning',   email: 'jane.smith@ourcompany.com',  password: 'password123' },
+                  { role: 'Admin',    color: 'secondary', email: 'admin@ourcompany.com',       password: 'admin123' },
                 ].map((row) => (
                   <TableRow
                     key={row.role}
