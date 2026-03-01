@@ -8,7 +8,14 @@ import {
   Typography,
   Box,
   Alert,
-  CircularProgress
+  CircularProgress,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Chip
 } from '@mui/material';
 import { useAuth } from '../../hooks/useAuth';
 import { validateEmail, validateRequired } from '../../utils/validators';
@@ -154,6 +161,63 @@ const Login = () => {
               </Link>
             </Box>
           </Box>
+        </Paper>
+
+        <Paper
+          elevation={2}
+          sx={{
+            mt: 3,
+            width: '100%',
+            overflow: 'hidden',
+            border: '1px solid',
+            borderColor: 'divider',
+          }}
+        >
+          <Box sx={{ px: 2.5, pt: 2, pb: 1 }}>
+            <Typography variant="subtitle2" color="text.secondary" sx={{ letterSpacing: 0.5 }}>
+              Demo Credentials
+            </Typography>
+          </Box>
+          <TableContainer>
+            <Table size="small">
+              <TableHead>
+                <TableRow sx={{ '& th': { fontWeight: 600, color: 'text.secondary', borderColor: 'divider' } }}>
+                  <TableCell>Role</TableCell>
+                  <TableCell>Email</TableCell>
+                  <TableCell>Password</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {[
+                  { role: 'Employee', color: 'info',      email: 'john.doe@company.com',    password: 'password123' },
+                  { role: 'Manager',  color: 'warning',   email: 'jane.smith@company.com',  password: 'password123' },
+                  { role: 'Admin',    color: 'secondary', email: 'admin@company.com',       password: 'admin123' },
+                ].map((row) => (
+                  <TableRow
+                    key={row.role}
+                    sx={{
+                      '&:last-child td': { border: 0 },
+                      '& td': { borderColor: 'divider' },
+                    }}
+                  >
+                    <TableCell>
+                      <Chip label={row.role} color={row.color} size="small" variant="outlined" />
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="body2" sx={{ fontFamily: 'monospace', fontSize: '0.8rem' }}>
+                        {row.email}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="body2" sx={{ fontFamily: 'monospace', fontSize: '0.8rem' }}>
+                        {row.password}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Paper>
       </Box>
     </Container>
